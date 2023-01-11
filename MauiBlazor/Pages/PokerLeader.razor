@@ -3,53 +3,80 @@
 @using Microsoft.AspNetCore.SignalR.Client;
 @using SharedData;
 <h3>PokerLeader</h3>
-
-@foreach(var vote in Votes)
+@if (!roomJoined)
 {
-    @vote.Value <br />
+	<label>
+		Create room:
+		<input @bind="roomInput" />
+	</label>
+	<button @onclick="RoomSubmit" class="btn btn-primary">Create</button>
+}
+else
+{
+	foreach (var vote in Votes)
+	{
+		@vote.Value
+		<br />
+	}
+
+	<input @bind="Input" />
+	<button @onclick="SendQuestion">Send</button>
+
 }
 
-<input @bind="Input"  />
-<button @onclick="(args) => SendQuestion(new PokerQuestionData {Question = Input})" >Send</button>
-
 @code {
-    public List<PokerQuestionData> Questions { get; set; } = new();
-    public List<PokerVoteData> Votes { get; set; } = new();
-    public string Input { get; set; } = "";
-    HubConnection hubConnection;
+	public List<PokerQuestionData> Questions { get; set; } = new();
+	public List<PokerVoteData> Votes { get; set; } = new();
+	public string Input { get; set; } = "";
+	HubConnection hubConnection;
+	private string roomInput = "";
+	private string _room = "";
+	private bool roomJoined;
 
-    protected override async Task OnInitializedAsync()
-    {
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(/*NavManager.ToAbsoluteUri("/signalr")*/"https://localhost:7242/signalr")
+	protected override async Task OnInitializedAsync()
+	{
+		hubConnection = new HubConnectionBuilder()
+			.WithUrl(/*NavManager.ToAbsoluteUri("/signalr")*/"https://localhost:7242/signalr")
 
-            .WithAutomaticReconnect()
-            .Build();
+			.WithAutomaticReconnect()
+			.Build();
 
-        hubConnection.On<PokerVoteData>("Vote", (vote) =>
-        {
-            Votes.Add(vote);
-            InvokeAsync(StateHasChanged);
-        });
+		hubConnection.On<PokerVoteData>("Vote", (vote) =>
+		{
+			Votes.Add(vote);
+			InvokeAsync(StateHasChanged);
+		});
 
-        await hubConnection.StartAsync();
+		await hubConnection.StartAsync();
 
-        await base.OnInitializedAsync();
-    }
+		await base.OnInitializedAsync();
+	}
 
-    private async Task SendQuestion(PokerQuestionData question)
-    {
-        if (hubConnection is not null)
-        {
-            await hubConnection.SendAsync("Question", question);
-        }
-    }
+	private async Task SendQuestion()
+	{
+		var question = new PokerQuestionData()
+		{
+			Question = Input,
+			RoomName = _room
+		};
+		if (hubConnection is not null)
+		{
+			await hubConnection.SendAsync("Question", question);
+		}
+	}
 
-    public async ValueTask DisposeAsync()
-    {
-        if (hubConnection is not null)
-        {
-            await hubConnection.DisposeAsync();
-        }
-    }
+	public async ValueTask DisposeAsync()
+	{
+		if (hubConnection is not null)
+		{
+			await hubConnection.DisposeAsync();
+		}
+	}
+	private async Task RoomSubmit()
+	{
+		_room = roomInput;
+		roomInput = "";
+		roomJoined = true;
+		await hubConnection.SendAsync("JoinRoom", _room);
+	}
 }

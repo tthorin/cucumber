@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace SharedData;
 
-namespace SharedData
+public class PokerQuestionData
 {
-    public class PokerQuestionData
-    {
-        public string Question { get; set; } = "";
-        public string AnswerStyle { get; set; } = "";
-    }
+    public string Question { get; set; } = "";
+    public string AnswerStyle { get; set; } = "";
+
+    public string RoomName { get; set; } = "";
 }

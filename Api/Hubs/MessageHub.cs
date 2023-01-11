@@ -12,12 +12,20 @@ namespace Api.Hubs
 
         public async Task Question(PokerQuestionData question)
         {
-            await Clients.All.SendAsync("Question", question);
-        }
+			//await Clients.All.SendAsync("Question", question);
+			await Clients.Group(question.RoomName).SendAsync("Question", question);
+		}
 
         public async Task Vote(PokerVoteData vote)
         {
-            await Clients.All.SendAsync("Vote", vote);
+            //await Clients.All.SendAsync("Vote", vote);
+			await Clients.Group(vote.RoomName).SendAsync("Vote", vote);
+		}
+
+        public async Task JoinRoom(string roomName)
+        {
+            var id = Context.ConnectionId;
+            await Groups.AddToGroupAsync(id, roomName);
         }
     }
 }
