@@ -15,9 +15,9 @@ namespace Api.Hubs
             await Clients.All.SendAsync("Question", question);
         }
 
-        public async Task Vote(int value)
+        public async Task Vote(PokerVoteData vote)
         {
-            await Clients.All.SendAsync("Vote", value);
+            await Clients.All.SendAsync("Vote", vote);
         }
     }
 }

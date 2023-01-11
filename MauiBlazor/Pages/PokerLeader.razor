@@ -14,7 +14,7 @@
 
 @code {
     public List<PokerQuestionData> Questions { get; set; } = new();
-    public List<int> Votes { get; set; } = new();
+    public List<PokerVoteData> Votes { get; set; } = new();
     public string Input { get; set; } = "";
     HubConnection hubConnection;
 
@@ -26,7 +26,7 @@
             .WithAutomaticReconnect()
             .Build();
 
-        hubConnection.On<int>("Vote", (vote) =>
+        hubConnection.On<PokerVoteData>("Vote", (vote) =>
         {
             Votes.Add(vote);
             InvokeAsync(StateHasChanged);

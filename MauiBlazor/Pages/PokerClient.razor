@@ -45,7 +45,7 @@ Messages:
     {
         if (hubConnection is not null)
         {
-            await hubConnection.SendAsync("Vote", vote);
+            await hubConnection.SendAsync("Vote", new PokerVoteData { Value = vote });
         }
     }
 
