@@ -26,7 +26,8 @@ Messages:
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(NavManager.ToAbsoluteUri("/signalr"))
+            .WithUrl(/*NavManager.ToAbsoluteUri("/signalr")*/"https://localhost:7242/signalr")
+
             .WithAutomaticReconnect()
             .Build();
 
