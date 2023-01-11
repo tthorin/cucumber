@@ -4,7 +4,7 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiBlazor", "MauiBlazor\MauiBlazor.csproj", "{B17395CF-5C0B-40B5-9CF6-ACB13E7380F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{982C6AA0-769D-4775-83D3-66A7E2AA832D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{982C6AA0-769D-4775-83D3-66A7E2AA832D}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "_SharedSignalR", "_SharedSignalR\_SharedSignalR.shproj", "{F3231116-C01D-453C-B05E-BB898480A6ED}"
 EndProject
@@ -29,10 +29,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
 		SolutionGuid = {E80B8EF2-8033-417D-989A-80A742437B25}
+		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		_SharedSignalR\_SharedSignalR.projitems*{982c6aa0-769d-4775-83d3-66a7e2aa832d}*SharedItemsImports = 5
+		_SharedSignalR\_SharedSignalR.projitems*{b17395cf-5c0b-40b5-9cf6-acb13e7380f3}*SharedItemsImports = 5
 		_SharedSignalR\_SharedSignalR.projitems*{f3231116-c01d-453c-b05e-bb898480a6ed}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

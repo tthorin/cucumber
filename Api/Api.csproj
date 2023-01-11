@@ -16,4 +16,6 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <Import Project="..\_SharedSignalR\_SharedSignalR.projitems" Label="Shared" />
+
 </Project>

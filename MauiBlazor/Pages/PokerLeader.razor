@@ -1,0 +1,55 @@
+﻿@page "/pokerleader";
+@using MauiBlazor.Data;
+@using Microsoft.AspNetCore.SignalR.Client;
+@using SharedData;
+<h3>PokerLeader</h3>
+
+@foreach(var vote in Votes)
+{
+    @vote <br />
+}
+
+<input @bind="Input"  />
+<button @onclick="(args) => SendQuestion(new PokerQuestionData {Question = Input})" >Send</button>
+
+@code {
+    public List<PokerQuestionData> Questions { get; set; } = new();
+    public List<int> Votes { get; set; } = new();
+    public string Input { get; set; } = "";
+    HubConnection hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(/*NavManager.ToAbsoluteUri("/signalr")*/"https://localhost:7242/signalr")
+
+            .WithAutomaticReconnect()
+            .Build();
+
+        hubConnection.On<int>("Vote", (vote) =>
+        {
+            Votes.Add(vote);
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task SendQuestion(PokerQuestionData question)
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("Question", question);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

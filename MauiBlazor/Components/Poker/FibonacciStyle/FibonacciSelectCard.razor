@@ -1,0 +1,16 @@
+﻿<button @onclick="(args) => SelectedValue(args, 1)">1</button>
+<button @onclick="(args) => SelectedValue(args, 2)">2</button>
+<button @onclick="(args) => SelectedValue(args, 3)">3</button>
+<button @onclick="(args) => SelectedValue(args, 5)">5</button>
+<button @onclick="(args) => SelectedValue(args, 8)">8</button>
+<button @onclick="(args) => SelectedValue(args, 13)">13</button>
+
+@code {
+    [Parameter]
+    public EventCallback<int> OnSelectedValue { get; set; }
+
+    void SelectedValue(MouseEventArgs e, int value)
+    {
+        OnSelectedValue.InvokeAsync(value);
+    }
+}

@@ -1,0 +1,59 @@
+﻿@page "/PokerClient"
+@using Microsoft.AspNetCore.SignalR.Client;
+@using MauiBlazor.Components.Poker.FibonacciStyle;
+@using SharedData;
+@inject NavigationManager NavManager;
+@implements IAsyncDisposable;
+
+<h1>Poker cliebnt</h1>
+
+Select Card
+
+Messages:
+@foreach (var message in messages)
+{
+    <p>@message.Question</p>
+}
+
+<FibonacciSelectCard OnSelectedValue="(value) => Send(value)" />
+
+@code {
+    HubConnection hubConnection;
+    List<PokerQuestionData> messages = new();
+    string messageInput = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(/*NavManager.ToAbsoluteUri("/signalr")*/"https://localhost:7242/signalr")
+
+            .WithAutomaticReconnect()
+            .Build();
+
+        hubConnection.On<PokerQuestionData>("Question", (question) =>
+        {
+            messages.Add(question);
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Send(int vote)
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("Vote", vote);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

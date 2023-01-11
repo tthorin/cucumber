@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using SharedData;
 
 namespace Api.Hubs
 {
@@ -7,6 +8,16 @@ namespace Api.Hubs
         public async Task SendMessageToUsers(string message)
         {
             await Clients.All.SendAsync("ReceiveMessage", message);
+        }
+
+        public async Task Question(PokerQuestionData question)
+        {
+            await Clients.All.SendAsync("Question", question);
+        }
+
+        public async Task Vote(int value)
+        {
+            await Clients.All.SendAsync("Vote", value);
         }
     }
 }
