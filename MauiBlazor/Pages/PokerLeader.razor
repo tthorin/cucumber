@@ -69,7 +69,7 @@
 	</div>
 </div>
 
-@if (!roomJoined)
+@*@if (!roomJoined)
 {
 	<label class="form-label">
 		Create room:
@@ -88,7 +88,7 @@ else
 	<input @bind="Question" class="form-control"/>
 	<button @onclick="SendQuestion" class="btn btn-primary">Send</button>
 
-}
+}*@
 
 @code {
 	public List<PokerQuestionData> Questions { get; set; } = new();
