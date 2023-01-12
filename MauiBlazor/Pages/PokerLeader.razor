@@ -1,7 +1,6 @@
 ﻿@page "/createroom";
 @using Microsoft.AspNetCore.SignalR.Client;
 @using _SharedSignalR.PokerData;
-<h3>PokerLeader</h3>
 
 <div class="app-container">
 	<div class="header">
@@ -18,11 +17,12 @@
 		<div>
 			@if(page==0)
 			{
-				<input @bind="_room" placeholder="Room name" />
+				<input @bind="roomInput" placeholder="Room name" />
 			}
 			@if(page==1)
 			{
-				<textarea @bind="Question" class="feature-input" placeholder="Feature"></textarea>
+				<span>Room: @_room</span><br />
+				<textarea @bind="Question" class="feature-input" placeholder="Feature"></textarea><br />
 				<a @onclick="SendQuestion">Send</a>
 			}
 
@@ -36,23 +36,29 @@
 			}
 			@if(page==2)
 			{
-				<span>Votes: 3/5</span><br />
+				<span>@Question</span><br />
+				<span>Votes: @Votes.Count()</span><br />
+				@foreach (var vote in Votes)
+				{
+					@vote.UserName <>has voted.</>
+					<br />
+				}
 				<a @onclick="() => page++">Show results</a>
 			}
 			@if(page == 3)
 			{
 				<table>
-				<tr>
-					<th>User</th>
-					<th>Vote</th>
-				</tr>
-				@foreach(var vote in Votes)
-				{
 					<tr>
-						<td>@vote.UserName</td>
-						<td>@vote.Value</td>
+						<th>User</th>
+						<th>Vote</th>
 					</tr>
-				}		
+					@foreach(var vote in Votes)
+					{
+						<tr>
+							<td>@vote.UserName</td>
+							<td>@vote.Value</td>
+						</tr>
+					}		
 				</table>
 				<br /><br />
 				<a @onclick="NextFeature">Next feature</a>
@@ -147,12 +153,14 @@ else
 		_room = roomInput;
 		roomInput = "";
 		roomJoined = true;
-		await hubConnection.SendAsync("JoinRoom", new PokerDTO() {Room=_room});
+		page++;
+		await hubConnection.SendAsync("JoinRoom", new PokerDTO() {Room = _room});
 		await hubConnection.SendAsync("RoomInvite", new PokerInvite() { Room = _room });
 	}
 	private void NextFeature()
 	{
 		page = 1;
+		Question = "";
 		Votes = new();
 	}
 }

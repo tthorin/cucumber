@@ -27,7 +27,7 @@ public class PokerHub : Hub
 	{
 		var id = Context.ConnectionId;
 		await Groups.AddToGroupAsync(id, settings.Room);
-		await Vote(new PokerVoteData() { Value = $"{settings.UserName} has joined the room", RoomName = settings.Room });
+		//await Vote(new PokerVoteData() { Value = $"{settings.UserName} has joined the room", RoomName = settings.Room });
 	}
 	public async Task RoomInvite(PokerInvite invite)
 	{

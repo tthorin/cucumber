@@ -43,10 +43,10 @@
 			{
 				<a @onclick="RoomSubmit">Join</a>
 			}	
-			@if (page == 3)
+			@if (page == 2)
 			{
 				<div>
-                <span>@messages.Last().Question</span>
+                <span>@(messages.LastOrDefault()?.Question ?? "Waiting...")</span>
                 <br />
                 <span>Answer: </span>
 
@@ -56,6 +56,10 @@
 				<div></div>
 				<div></div>
 				<div></div>
+			}
+			@if (page == 3)
+			{
+				<span>You voted: @voteStr</span>
 			}
 		</div>
 	</div>
@@ -79,6 +83,7 @@
 	private int page = 0;
 	private PokerInvite _invite;
 	private PokerDTO _settings = new();
+	private string voteStr = "";
 
 
 	protected override async Task OnInitializedAsync()
@@ -91,6 +96,7 @@
 
 		hubConnection.On<PokerQuestionData>("Question", (question) =>
 		{
+			page = 2;
 			messages.Add(question);
 			InvokeAsync(StateHasChanged);
 		});
@@ -108,6 +114,7 @@
 
 	private async Task Send(string vote)
 	{
+		voteStr = vote;
 		if (hubConnection is not null)
 		{
 			var voteObj = new PokerVoteData
@@ -118,6 +125,7 @@
 				};
 			await hubConnection.SendAsync("Vote", voteObj);
 		}
+		page++;
 	}
 
 	public async ValueTask DisposeAsync()
