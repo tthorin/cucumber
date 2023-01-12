@@ -30,6 +30,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapHub<MessageHub>("/signalr");
+app.MapHub<PokerHub>("/signalr");
 
 app.Run();

@@ -2,25 +2,27 @@
 @using MauiBlazor.Data;
 @using Microsoft.AspNetCore.SignalR.Client;
 @using SharedData;
+@using _SharedSignalR.PokerData;
 <h3>PokerLeader</h3>
 @if (!roomJoined)
 {
-	<label>
+	<label class="form-label">
 		Create room:
-		<input @bind="roomInput" />
+		<input @bind="roomInput" class="form-control" />
 	</label>
 	<button @onclick="RoomSubmit" class="btn btn-primary">Create</button>
 }
 else
 {
+	<h4>Room: @_room</h4>
 	foreach (var vote in Votes)
 	{
 		@vote.Value
 		<br />
 	}
 
-	<input @bind="Input" />
-	<button @onclick="SendQuestion">Send</button>
+	<input @bind="Input" class="form-control"/>
+	<button @onclick="SendQuestion" class="btn btn-primary">Send</button>
 
 }
 
@@ -78,5 +80,6 @@ else
 		roomInput = "";
 		roomJoined = true;
 		await hubConnection.SendAsync("JoinRoom", _room);
+		await hubConnection.SendAsync("RoomInvite", new PokerInvite() { Room = _room });
 	}
 }
