@@ -1,4 +1,4 @@
-﻿namespace SharedData;
+﻿namespace _SharedSignalR.PokerData;
 
 public class PokerQuestionData
 {

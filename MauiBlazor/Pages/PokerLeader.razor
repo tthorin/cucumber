@@ -1,7 +1,6 @@
 ﻿@page "/pokerleader";
 @using MauiBlazor.Data;
 @using Microsoft.AspNetCore.SignalR.Client;
-@using SharedData;
 @using _SharedSignalR.PokerData;
 <h3>PokerLeader</h3>
 @if (!roomJoined)
@@ -17,7 +16,7 @@ else
 	<h4>Room: @_room</h4>
 	@foreach (var vote in Votes)
 	{
-		<p>@vote.Value</p>
+		<p>@vote.UserName voted: @vote.Value</p>
 	}
 
 	<input @bind="Input" class="form-control"/>
@@ -78,7 +77,7 @@ else
 		_room = roomInput;
 		roomInput = "";
 		roomJoined = true;
-		await hubConnection.SendAsync("JoinRoom", _room);
+		await hubConnection.SendAsync("JoinRoom", new PokerDTO() {Room=_room});
 		await hubConnection.SendAsync("RoomInvite", new PokerInvite() { Room = _room });
 	}
 }

@@ -1,7 +1,6 @@
 ﻿@page "/pokerclient"
 @using Microsoft.AspNetCore.SignalR.Client;
 @using MauiBlazor.Components.Poker.FibonacciStyle;
-@using SharedData;
 @using _SharedSignalR.PokerData;
 @inject NavigationManager NavManager;
 @implements IAsyncDisposable;
@@ -47,7 +46,7 @@ else
 @code {
 	HubConnection hubConnection;
 	List<PokerQuestionData> messages = new();
-	string messageInput = "";
+	//string messageInput = "";
 	private string _room = "";
 	private bool roomJoined;
 	private PokerInvite _invite;
@@ -84,6 +83,7 @@ else
 		{
 			var voteObj = new PokerVoteData
 				{
+					UserName = _settings.UserName,
 					Value = vote,
 					RoomName = _room
 				};
