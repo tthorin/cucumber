@@ -15,10 +15,9 @@
 else
 {
 	<h4>Room: @_room</h4>
-	foreach (var vote in Votes)
+	@foreach (var vote in Votes)
 	{
-		@vote.Value
-		<br />
+		<p>@vote.Value</p>
 	}
 
 	<input @bind="Input" class="form-control"/>

@@ -1,15 +1,15 @@
-﻿@foreach(int number in fibNumbers)
+﻿@foreach(string number in fibNumbers)
 {
     <button @onclick="()=>SelectedValue(number)">@number</button>
 }
 
 @code {
     [Parameter]
-    public EventCallback<int> OnSelectedValue { get; set; }
+    public EventCallback<string> OnSelectedValue { get; set; }
 
-    private int[] fibNumbers= new[] {1,2,3,5,8,13};
+    private string[] fibNumbers= new[] {"1","2","3","5","8","13"};
 
-    Task SelectedValue(int value)
+    Task SelectedValue(string value)
     {
         return OnSelectedValue.InvokeAsync(value);
     }

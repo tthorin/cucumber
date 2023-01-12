@@ -23,11 +23,12 @@ public class PokerHub : Hub
 			await Clients.Group(vote.RoomName).SendAsync("Vote", vote);
 		}
 
-    public async Task JoinRoom(string roomName)
+    public async Task JoinRoom(PokerDTO settings)
     {
         var id = Context.ConnectionId;
-        await Groups.AddToGroupAsync(id, roomName);
-    }
+        await Groups.AddToGroupAsync(id, settings.Room);
+		await Vote(new PokerVoteData() { Value=$"{settings.UserName} has joined the room",RoomName=settings.Room});
+	}
     public async Task RoomInvite(PokerInvite invite)
     {
         await Clients.All.SendAsync("RoomInvite", invite);

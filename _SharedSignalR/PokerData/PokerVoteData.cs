@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 public class PokerVoteData
 {
-    public int Value { get; set; }
+    public string Value { get; set; } = "";
     public string RoomName { get; set; } = "";
 
 }

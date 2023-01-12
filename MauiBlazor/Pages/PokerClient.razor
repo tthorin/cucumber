@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/pokerclient"
 @using Microsoft.AspNetCore.SignalR.Client;
 @using MauiBlazor.Components.Poker.FibonacciStyle;
 @using SharedData;
@@ -9,16 +9,23 @@
 <h1>Poker client</h1>
 @if (!roomJoined)
 {
-
-	<label class="form-label">
+	<EditForm Model="_settings" OnValidSubmit="RoomSubmit">
+		<DataAnnotationsValidator/>
+		<label class="form-label">
+			User Name:
+			<input @bind="_settings.UserName" class="form-control" />
+		</label>
+		<label class="form-label">
 		Join room:
-		<input @bind="roomInput" class="form-control"/>
+		<input @bind="_settings.Room" class="form-control"/>
 	</label>
-	<button @onclick="()=>RoomSubmit(roomInput)" class="btn btn-primary">Join Room</button>
+	<button disabled="@string.IsNullOrEmpty(_settings.Room)" class="btn btn-primary">Join Room</button>
+
+	</EditForm>
 
 	@if (_invite is not null)
 	{
-		<button @onclick="()=>RoomSubmit(_invite.Room)" class="btn btn-primary">Join @_invite.Room</button>
+		<button @onclick="()=>_settings.Room = _invite.Room" class="btn btn-primary">Join @_invite.Room</button>
 	}
 }
 else
@@ -27,10 +34,12 @@ else
 	<h1>Select Card</h1>
 
 	<h4>Messages:</h4>
+	
 	@foreach (var message in messages)
 	{
 		<p>@message.Question</p>
 	}
+	
 
 	<FibonacciSelectCard OnSelectedValue="(value) => Send(value)" />
 }
@@ -39,10 +48,10 @@ else
 	HubConnection hubConnection;
 	List<PokerQuestionData> messages = new();
 	string messageInput = "";
-	private string roomInput = "";
 	private string _room = "";
 	private bool roomJoined;
 	private PokerInvite _invite;
+	private PokerDTO _settings = new();
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -69,7 +78,7 @@ else
 		await base.OnInitializedAsync();
 	}
 
-	private async Task Send(int vote)
+	private async Task Send(string vote)
 	{
 		if (hubConnection is not null)
 		{
@@ -89,11 +98,10 @@ else
 			await hubConnection.DisposeAsync();
 		}
 	}
-	private async Task RoomSubmit(string room)
+	private async Task RoomSubmit()
 	{
-		_room = room;
-		roomInput = "";
+		_room = _settings.Room;
 		roomJoined = true;
-		await hubConnection.SendAsync("JoinRoom", _room);
+		await hubConnection.SendAsync("JoinRoom", _settings);
 	}
 }
