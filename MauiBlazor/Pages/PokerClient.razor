@@ -18,9 +18,11 @@
 	</div>
 	<div class="main">
 		<div>
-			if(page==0)
-				<input @bind="_settings.UserName" placeholder="Your name" />
-			if(page==1)
+			@if(page==0)
+			{
+			<input @bind="_settings.UserName" placeholder="Your name" />
+			}	
+			@if(page==1)
 			{
 				<input @bind="_settings.Room" placeholder="Room name" />
 				@if (_invite is not null)
@@ -33,11 +35,15 @@
 		<div></div>
 		<div></div>
 		<div>
-			if(page==0)
+			@if (page == 0)
+			{
 				<a @onclick="() => page++">Next</a>
-			if(page==1)
+			}	
+			@if (page == 1)
+			{
 				<a @onclick="RoomSubmit">Join</a>
-			if(page==3)
+			}	
+			@if (page == 3)
 			{
 				<div>
                 <span>@messages.Last().Question</span>

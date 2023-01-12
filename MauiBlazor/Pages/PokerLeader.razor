@@ -16,9 +16,11 @@
 	</div>
 	<div class="main">
 		<div>
-			if(page==0)
+			@if(page==0)
+			{
 				<input @bind="_room" placeholder="Room name" />
-			if(page==1)
+			}
+			@if(page==1)
 			{
 				<textarea @bind="Question" class="feature-input" placeholder="Feature"></textarea>
 				<a @onclick="SendQuestion">Send</a>
@@ -28,15 +30,16 @@
 		<div></div>
 		<div></div>
 		<div>
-			if(page==0)
+			@if(page==0)
+			{
 				<a @onclick="RoomSubmit">Create</a>
-
-			if(page==2)
+			}
+			@if(page==2)
 			{
 				<span>Votes: 3/5</span><br />
 				<a @onclick="() => page++">Show results</a>
 			}
-			if(page == 3)
+			@if(page == 3)
 			{
 				<table>
 				<tr>
