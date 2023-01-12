@@ -1,0 +1,83 @@
+﻿@page "/pokerleader";
+@using MauiBlazor.Data;
+@using Microsoft.AspNetCore.SignalR.Client;
+@using _SharedSignalR.PokerData;
+<h3>PokerLeader</h3>
+@if (!roomJoined)
+{
+	<label class="form-label">
+		Create room:
+		<input @bind="roomInput" class="form-control" />
+	</label>
+	<button @onclick="RoomSubmit" class="btn btn-primary">Create</button>
+}
+else
+{
+	<h4>Room: @_room</h4>
+	@foreach (var vote in Votes)
+	{
+		<p>@vote.UserName voted: @vote.Value</p>
+	}
+
+	<input @bind="Input" class="form-control"/>
+	<button @onclick="SendQuestion" class="btn btn-primary">Send</button>
+
+}
+
+@code {
+	public List<PokerQuestionData> Questions { get; set; } = new();
+	public List<PokerVoteData> Votes { get; set; } = new();
+	public string Input { get; set; } = "";
+	HubConnection hubConnection;
+	private string roomInput = "";
+	private string _room = "";
+	private bool roomJoined;
+
+	protected override async Task OnInitializedAsync()
+	{
+		hubConnection = new HubConnectionBuilder()
+			.WithUrl(/*NavManager.ToAbsoluteUri("/signalr")*/"https://localhost:7242/signalr")
+
+			.WithAutomaticReconnect()
+			.Build();
+
+		hubConnection.On<PokerVoteData>("Vote", (vote) =>
+		{
+			Votes.Add(vote);
+			InvokeAsync(StateHasChanged);
+		});
+
+		await hubConnection.StartAsync();
+
+		await base.OnInitializedAsync();
+	}
+
+	private async Task SendQuestion()
+	{
+		var question = new PokerQuestionData()
+		{
+			Question = Input,
+			RoomName = _room
+		};
+		if (hubConnection is not null)
+		{
+			await hubConnection.SendAsync("Question", question);
+		}
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (hubConnection is not null)
+		{
+			await hubConnection.DisposeAsync();
+		}
+	}
+	private async Task RoomSubmit()
+	{
+		_room = roomInput;
+		roomInput = "";
+		roomJoined = true;
+		await hubConnection.SendAsync("JoinRoom", new PokerDTO() {Room=_room});
+		await hubConnection.SendAsync("RoomInvite", new PokerInvite() { Room = _room });
+	}
+}
