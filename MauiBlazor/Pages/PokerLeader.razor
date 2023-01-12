@@ -1,8 +1,71 @@
-﻿@page "/pokerleader";
-@using MauiBlazor.Data;
+﻿@page "/createroom";
 @using Microsoft.AspNetCore.SignalR.Client;
 @using _SharedSignalR.PokerData;
 <h3>PokerLeader</h3>
+
+<div class="app-container">
+	<div class="header">
+		<a href="index.html">
+			<img src="arrow-back.png" class="header-item item1" />
+		</a>
+		<div class="header-item item2">
+		</div>
+		<div class="header-item appname">
+			5 Dimensions of Agile
+		</div>
+	</div>
+	<div class="main">
+		<div>
+			if(page==0)
+				<input @bind="_room" placeholder="Room name" />
+			if(page==1)
+			{
+				<textarea @bind="Question" class="feature-input" placeholder="Feature"></textarea>
+				<a @onclick="SendQuestion">Send</a>
+			}
+
+		</div>
+		<div></div>
+		<div></div>
+		<div>
+			if(page==0)
+				<a @onclick="RoomSubmit">Create</a>
+
+			if(page==2)
+			{
+				<span>Votes: 3/5</span><br />
+				<a @onclick="() => page++">Show results</a>
+			}
+			if(page == 3)
+			{
+				<table>
+				<tr>
+					<th>User</th>
+					<th>Vote</th>
+				</tr>
+				@foreach(var vote in Votes)
+				{
+					<tr>
+						<td>@vote.UserName</td>
+						<td>@vote.Value</td>
+					</tr>
+				}		
+				</table>
+				<br /><br />
+				<a @onclick="NextFeature">Next feature</a>
+			}
+		</div>
+	</div>
+	<div class="footer">
+		<div class="header-item elicit">
+			Elicit
+		</div>
+		<div class="header-item item2"></div>
+		<div class="header-item item1">
+		</div>
+	</div>
+</div>
+
 @if (!roomJoined)
 {
 	<label class="form-label">
@@ -19,7 +82,7 @@ else
 		<p>@vote.UserName voted: @vote.Value</p>
 	}
 
-	<input @bind="Input" class="form-control"/>
+	<input @bind="Question" class="form-control"/>
 	<button @onclick="SendQuestion" class="btn btn-primary">Send</button>
 
 }
@@ -27,11 +90,12 @@ else
 @code {
 	public List<PokerQuestionData> Questions { get; set; } = new();
 	public List<PokerVoteData> Votes { get; set; } = new();
-	public string Input { get; set; } = "";
+	public string Question { get; set; } = "";
 	HubConnection hubConnection;
 	private string roomInput = "";
 	private string _room = "";
 	private bool roomJoined;
+	private int page = 0;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -56,9 +120,12 @@ else
 	{
 		var question = new PokerQuestionData()
 		{
-			Question = Input,
+			Question = Question,
 			RoomName = _room
 		};
+
+		page++;
+
 		if (hubConnection is not null)
 		{
 			await hubConnection.SendAsync("Question", question);
@@ -79,5 +146,10 @@ else
 		roomJoined = true;
 		await hubConnection.SendAsync("JoinRoom", new PokerDTO() {Room=_room});
 		await hubConnection.SendAsync("RoomInvite", new PokerInvite() { Room = _room });
+	}
+	private void NextFeature()
+	{
+		page = 1;
+		Votes = new();
 	}
 }

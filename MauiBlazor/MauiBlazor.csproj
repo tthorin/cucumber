@@ -57,6 +57,10 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Data\" />
+    </ItemGroup>
+
     <Import Project="..\_SharedSignalR\_SharedSignalR.projitems" Label="Shared" />
 
 </Project>

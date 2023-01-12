@@ -1,0 +1,130 @@
+﻿.app-container {
+    width: 100%;
+    max-width: 450px;
+    height: 90vh;
+    margin: 5vh auto;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    color: #f6f6f6;
+    background-color: #f9f9f9;
+    justify-content: space-between;
+}
+
+.app-container .header{
+    padding: 15px;
+    background-color: #ff5555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 60px;
+    height: 100px;
+
+}
+
+.app-container .header .header-item
+{
+
+    height: 100%;
+}
+
+.app-container .header .item1{
+    width: 100px;
+    height: 100%;
+
+}
+.app-container .header .item2 {
+    flex-grow: 1;
+}
+
+.app-container .header .appname {
+    flex-grow: 1;
+    /* background-color: #3333aa; */
+
+    padding: 20x;
+    text-align: right;
+    font-size: 24pt;
+    font-weight: bold;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: #ffe3e3;
+}
+
+.app-container .main {
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.app-container .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #222327;
+    min-height: 60px;
+}
+.app-container .footer .item1 {
+    flex-grow: 2;
+}
+
+.app-container .footer .item2 {
+    flex-grow: 2;
+}
+
+.app-container .footer .elicit {
+    padding: 5pt;
+    flex-grow: 1;
+    font-size: 42pt;
+    text-align: left;
+    color: #88cc66;
+}
+
+.main {
+    text-align: center;
+}
+
+.main input {
+    width:80%;
+    margin: auto;
+    height:50px;
+    border-radius:20px;
+    border: 1px solid #333333;
+    padding-left:20px;
+    padding-right:20px;
+    font-size: 24pt;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.main input:active {
+    color:#222327
+}
+
+.main a {
+    font-size: 24pt;
+    color:#222327;
+    text-decoration: none;
+    font-weight: bold;
+
+}
+
+.main span {
+    color:#222327;
+    font-size: 24pt;
+}
+.main h2 {
+    text-align: left;
+    color:#222327
+}
+.main table {
+    text-align: left;
+    color:#222327;
+}
+.main td {
+    width: 20%;
+}
+
+.main textarea {
+    height: 100px;
+    text-align: left;
+    font-size: 18pt;
+}

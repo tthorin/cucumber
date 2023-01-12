@@ -1,47 +1,68 @@
-﻿@page "/pokerclient"
+﻿@page "/joinroom"
 @using Microsoft.AspNetCore.SignalR.Client;
 @using MauiBlazor.Components.Poker.FibonacciStyle;
 @using _SharedSignalR.PokerData;
 @inject NavigationManager NavManager;
 @implements IAsyncDisposable;
 
-<h1>Poker client</h1>
-@if (!roomJoined)
-{
-	<EditForm Model="_settings" OnValidSubmit="RoomSubmit">
-		<DataAnnotationsValidator/>
-		<label class="form-label">
-			User Name:
-			<input @bind="_settings.UserName" class="form-control" />
-		</label>
-		<label class="form-label">
-		Join room:
-		<input @bind="_settings.Room" class="form-control"/>
-	</label>
-	<button disabled="@string.IsNullOrEmpty(_settings.Room)" class="btn btn-primary">Join Room</button>
+<div class="app-container">
+	<div class="header">
+		<a href="index.html">
+			<img src="arrow-back.png" class="header-item item1" />
+		</a>
+		<div class="header-item item2">
+		</div>
+		<div class="header-item appname">
+			5 Dimensions of Agile
+		</div>
+	</div>
+	<div class="main">
+		<div>
+			if(page==0)
+				<input @bind="_settings.UserName" placeholder="Your name" />
+			if(page==1)
+			{
+				<input @bind="_settings.Room" placeholder="Room name" />
+				@if (_invite is not null)
+				{
+					<button @onclick="()=>_settings.Room = _invite.Room" class="btn btn-primary">Join @_invite.Room</button>
+				}
+			}
+				
+		</div>
+		<div></div>
+		<div></div>
+		<div>
+			if(page==0)
+				<a @onclick="() => page++">Next</a>
+			if(page==1)
+				<a @onclick="RoomSubmit">Join</a>
+			if(page==3)
+			{
+				<div>
+                <span>@messages.Last().Question</span>
+                <br />
+                <span>Answer: </span>
 
-	</EditForm>
+				<FibonacciSelectCard OnSelectedValue="(value) => Send(value)" />
 
-	@if (_invite is not null)
-	{
-		<button @onclick="()=>_settings.Room = _invite.Room" class="btn btn-primary">Join @_invite.Room</button>
-	}
-}
-else
-{
-	<h2>Room: @_room</h2>
-	<h1>Select Card</h1>
+				</div>
+				<div></div>
+				<div></div>
+				<div></div>
+			}
+		</div>
+	</div>
+	<div class="footer">
+		<div class="header-item elicit">
+			Elicit
+		</div>
+		<div class="header-item item2"></div>
+		<div class="header-item item1">
+		</div>
+	</div>
+</div>
 
-	<h4>Messages:</h4>
-	
-	@foreach (var message in messages)
-	{
-		<p>@message.Question</p>
-	}
-	
-
-	<FibonacciSelectCard OnSelectedValue="(value) => Send(value)" />
-}
 
 @code {
 	HubConnection hubConnection;
@@ -49,8 +70,10 @@ else
 	//string messageInput = "";
 	private string _room = "";
 	private bool roomJoined;
+	private int page = 0;
 	private PokerInvite _invite;
 	private PokerDTO _settings = new();
+
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -102,6 +125,7 @@ else
 	{
 		_room = _settings.Room;
 		roomJoined = true;
+		page++;
 		await hubConnection.SendAsync("JoinRoom", _settings);
 	}
 }
