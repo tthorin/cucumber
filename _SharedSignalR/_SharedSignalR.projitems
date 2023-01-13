@@ -10,8 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerInvite.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerDTO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerClientSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerVoteData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerQuestionData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerFeatureData.cs" />
   </ItemGroup>
 </Project>

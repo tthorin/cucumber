@@ -10,7 +10,7 @@ public class PokerHub : Hub
 		await Clients.All.SendAsync("ReceiveMessage", message);
 	}
 
-	public async Task Question(PokerQuestionData question)
+	public async Task Question(PokerFeatureData question)
 	{
 		//await Clients.All.SendAsync("Question", question);
 		await Clients.Group(question.RoomName).SendAsync("Question", question);
@@ -23,7 +23,7 @@ public class PokerHub : Hub
 		await Clients.GroupExcept(vote.RoomName,exluded).SendAsync("Vote", vote);
 	}
 
-	public async Task JoinRoom(PokerDTO settings)
+	public async Task JoinRoom(PokerClientSettings settings)
 	{
 		var id = Context.ConnectionId;
 		await Groups.AddToGroupAsync(id, settings.Room);

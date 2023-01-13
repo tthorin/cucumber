@@ -2,9 +2,9 @@
 
 using System.ComponentModel.DataAnnotations;
 
-public class PokerDTO
+public class PokerClientSettings
 {
-    public string UserName { get; set; } = "Anonymous";
+    public string Username { get; set; } = "Anonymous";
     public string Msg { get; set; } = "";
     [Required]
     public string Room { get; set; } = "";
