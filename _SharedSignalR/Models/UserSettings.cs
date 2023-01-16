@@ -1,11 +1,10 @@
-﻿namespace _SharedSignalR.PokerData;
+﻿namespace _SharedSignalR.Models;
 
 using System.ComponentModel.DataAnnotations;
 
-public class PokerClientSettings
+public class UserSettings
 {
     public string Username { get; set; } = "Anonymous";
-    public string Msg { get; set; } = "";
     [Required]
     public string Room { get; set; } = "";
 }

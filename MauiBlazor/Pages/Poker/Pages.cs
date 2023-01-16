@@ -8,4 +8,12 @@
 		DoneVoting
 
 	}
+
+	enum PokerLeaderPages
+	{
+		EnterRoomName,
+		EnterFeature,
+		ShowResults
+
+	}
 }

@@ -1,5 +1,5 @@
 ﻿@using MauiBlazor.Pages.Poker.FibonacciStyle
-@using _SharedSignalR.PokerData;
+@using _SharedSignalR.Models;
 <span>@(
       Feature.Feature ?? "Waiting..."
       )</span>
@@ -11,7 +11,7 @@ OnSelectedValue="(value) => OnValueSelect(value)" />
 
 @code {
     [Parameter]
-    public PokerFeatureData Feature { get; set; }
+    public PokerObject Feature { get; set; }
 
     [Parameter] 
     public EventCallback<string> OnValueSelected { get; set; }

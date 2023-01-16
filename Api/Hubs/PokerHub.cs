@@ -1,6 +1,6 @@
 ﻿namespace Api.Hubs;
 
-using _SharedSignalR.PokerData;
+using _SharedSignalR.Models;
 using Microsoft.AspNetCore.SignalR;
 
 public class PokerHub : Hub
@@ -10,13 +10,13 @@ public class PokerHub : Hub
 		await Clients.All.SendAsync("ReceiveMessage", message);
 	}
 
-	public async Task Question(PokerFeatureData question)
+	public async Task Question(PokerObject question)
 	{
 		//await Clients.All.SendAsync("Question", question);
 		await Clients.Group(question.RoomName).SendAsync("Question", question);
 	}
 
-	public async Task Vote(PokerVoteData vote)
+	public async Task Vote(PokerVote vote)
 	{
 		//await Clients.All.SendAsync("Vote", vote);
 		string[] exluded = { $"{Context.ConnectionId}" };

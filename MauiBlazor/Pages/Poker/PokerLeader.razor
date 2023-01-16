@@ -1,25 +1,16 @@
 ﻿@page "/createroom";
+@using MauiBlazor.SignalR;
 @using Microsoft.AspNetCore.SignalR.Client;
-@using _SharedSignalR.PokerData;
+@using _SharedSignalR.Models;
 
 <div class="app-container">
-	<div class="header">
-		<a href="index.html">
-			<img src="arrow-back.png" class="header-item item1" />
-		</a>
-		<div class="header-item item2">
-		</div>
-		<div class="header-item appname">
-			5 Dimensions of Agile
-		</div>
-	</div>
 	<div class="main">
 		<div>
-			@if(page==0)
+			@if (page == PokerLeaderPages.EnterRoomName)
 			{
 				<input @bind="roomInput" placeholder="Room name" />
 			}
-			@if(page==1)
+			@if(page == PokerLeaderPages.EnterFeature)
 			{
 				<span>Room: @_room</span><br />
 				<textarea @bind="Question" class="feature-input" placeholder="Feature"></textarea><br />
@@ -40,7 +31,7 @@
 				<span>Votes: @Votes.Count()</span><br />
 				@foreach (var vote in Votes)
 				{
-					<p>@vote.UserName has voted.</p>
+					<p>@vote.Username has voted.</p>
 				}
 				<a @onclick="() => page++">Show results</a>
 			}
@@ -54,8 +45,8 @@
 					@foreach(var vote in Votes)
 					{
 						<tr>
-							<td>@vote.UserName</td>
-							<td>@vote.Value</td>
+							<td>@vote.Username</td>
+							<td>@vote.Answer</td>
 						</tr>
 					}		
 				</table>
@@ -64,101 +55,49 @@
 			}
 		</div>
 	</div>
-	<div class="footer">
-		<div class="header-item elicit">
-			Elicit
-		</div>
-		<div class="header-item item2"></div>
-		<div class="header-item item1">
-		</div>
-	</div>
 </div>
 
-@*@if (!roomJoined)
-{
-	<label class="form-label">
-		Create room:
-		<input @bind="roomInput" class="form-control" />
-	</label>
-	<button @onclick="RoomSubmit" class="btn btn-primary">Create</button>
-}
-else
-{
-	<h4>Room: @_room</h4>
-	@foreach (var vote in Votes)
+@code {
+	private ISignalrContext signalr;
+	private SignalrContextSettings settings = new();
+	public List<PokerObject> Questions { get; set; } = new();
+	public List<PokerVote> Votes { get; set; } = new();
+	public string Question { get; set; } = "";
+	private string roomInput = "";
+	private bool roomJoined;
+	private PokerLeaderPages page = PokerLeaderPages.EnterRoomName;
+
+	private async Task OnRoomSubmitted(string room)
 	{
-		<p>@vote.UserName voted: @vote.Value</p>
+		settings.Room = room;
+		page = PokerLeaderPages.EnterFeature;
+
+		await Connect();
 	}
 
-	<input @bind="Question" class="form-control"/>
-	<button @onclick="SendQuestion" class="btn btn-primary">Send</button>
-
-}*@
-
-@code {
-	public List<PokerFeatureData> Questions { get; set; } = new();
-	public List<PokerVoteData> Votes { get; set; } = new();
-	public string Question { get; set; } = "";
-	HubConnection hubConnection;
-	private string roomInput = "";
-	private string _room = "";
-	private bool roomJoined;
-	private int page = 0;
-
-	protected override async Task OnInitializedAsync()
+	private async Task Connect()
 	{
-		hubConnection = new HubConnectionBuilder()
-			.WithUrl(/*NavManager.ToAbsoluteUri("/signalr")*/"https://localhost:7242/signalr")
+		signalr = new SignalrPokerContext(settings);
 
-			.WithAutomaticReconnect()
-			.Build();
-
-		hubConnection.On<PokerVoteData>("Vote", (vote) =>
+		signalr.OnPokerVote((vote) =>
 		{
 			Votes.Add(vote);
 			InvokeAsync(StateHasChanged);
 		});
 
-		await hubConnection.StartAsync();
-
-		await base.OnInitializedAsync();
+		await signalr.Start();
 	}
 
-	private async Task SendQuestion()
+	private async Task Feature(string feature)
 	{
-		var question = new PokerFeatureData()
-		{
-			Feature = Question,
-			RoomName = _room
-		};
+		await Feature(feature);
 
 		page++;
-
-		if (hubConnection is not null)
-		{
-			await hubConnection.SendAsync("Question", question);
-		}
 	}
 
-	public async ValueTask DisposeAsync()
-	{
-		if (hubConnection is not null)
-		{
-			await hubConnection.DisposeAsync();
-		}
-	}
-	private async Task RoomSubmit()
-	{
-		_room = roomInput;
-		roomInput = "";
-		roomJoined = true;
-		page++;
-		await hubConnection.SendAsync("JoinRoom", new PokerClientSettings() {Room = _room});
-		await hubConnection.SendAsync("RoomInvite", new PokerInvite() { Room = _room });
-	}
 	private void NextFeature()
 	{
-		page = 1;
+		page++;
 		Question = "";
 		Votes = new();
 	}

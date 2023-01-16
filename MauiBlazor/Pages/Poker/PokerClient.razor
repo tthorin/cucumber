@@ -1,22 +1,10 @@
 ﻿@page "/joinroom"
-@using Microsoft.AspNetCore.SignalR.Client;
-@using _SharedSignalR.PokerData;
+@using MauiBlazor.SignalR;
+@using _SharedSignalR.Models;
 @inject NavigationManager NavManager;
-@implements IAsyncDisposable;
+@inject ISignalrContext Signalr;
 
-<div class="app-container">
-	<div class="header">
-		<a href="index.html">
-			<img src="arrow-back.png" class="header-item item1" />
-		</a>
-		<div class="header-item item2">
-		</div>
-		<div class="header-item appname">
-			5 Dimensions of Agile
-		</div>
-	</div>
 
-	<div class="main">
 		<div>
 			@if(page == PokerClientPages.EnterUsername)
 			{
@@ -36,50 +24,14 @@
 			}
 				
 		</div>
-	</div>
 
-	<div class="footer">
-		<div class="header-item elicit">
-			Elicit
-		</div>
-		<div class="header-item item2"></div>
-		<div class="header-item item1"></div>
-	</div>
-</div>
 
 @code {
-	const string HUB_URL = "https://localhost:7242/signalr";
-
-	private HubConnection hubConnection;
-	private List<PokerFeatureData> features = new();
-	private PokerClientSettings settings = new();
-	private PokerClientPages page = Poker.PokerClientPages.EnterUsername;
+	private List<PokerObject> features = new();
+	private List<JoinRoomData> users = new();
+	private UserSettings settings = new();
+	private PokerClientPages page = PokerClientPages.EnterUsername;
 	private string vote = "";
-
-	protected override async Task OnInitializedAsync()
-	{
-		hubConnection = new HubConnectionBuilder()
-			.WithUrl(HUB_URL)
-			.WithAutomaticReconnect()
-			.Build();
-
-		hubConnection.On<PokerFeatureData>("Question", (feature) =>
-		{
-			page = PokerClientPages.Voting;
-			features.Add(feature);
-			InvokeAsync(StateHasChanged);
-		});
-
-		hubConnection.On<PokerInvite>("RoomInvite", (invite) =>
-		{
-			//_invite = invite;
-			InvokeAsync(StateHasChanged);
-		});
-
-		await hubConnection.StartAsync();
-
-		await base.OnInitializedAsync();
-	}
 
 	private void OnUsernameSubmitted(string username)
 	{
@@ -87,40 +39,35 @@
 		page = PokerClientPages.EnterRoomName;
 	}
 
-	private void OnRoomSubmitted(string room)
+	private async Task OnRoomSubmitted(string room)
 	{
 		settings.Room = room;
 		page = PokerClientPages.Voting;
+
+		await StartSignalr();
 	}
 
-	private async Task Vote(string voteValue)
+	private async Task StartSignalr()
 	{
-		if (hubConnection is not null)
-		{
-			var voteObj = new PokerVoteData
-			{
-				UserName = settings.Username,
-				Value = voteValue,
-				RoomName = settings.Room
-			};
+		Signalr.Settings = settings;
 
-			await hubConnection.SendAsync("Vote", voteObj);
-		}
-		vote = voteValue;
+		Signalr.OnPokerQuestion((feature) => features.Add(feature));
+		Signalr.OnJoin((user) => users.Add(user));
+
+		await Signalr.Start();
+	}
+
+	private async Task Vote(string vote)
+	{
+		await Signalr.SendPokerVote(vote);
+
+		this.vote = vote;
 		page++;
 	}
 
 	private async Task RoomSubmit()
 	{
-		await hubConnection.SendAsync("JoinRoom", settings);
+		await Signalr.Join();
 		page++;
-	}
-
-	public async ValueTask DisposeAsync()
-	{
-		if (hubConnection is not null)
-		{
-			await hubConnection.DisposeAsync();
-		}
 	}
 }
