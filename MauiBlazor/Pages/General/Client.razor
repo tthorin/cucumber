@@ -1,4 +1,6 @@
-﻿@using _SharedSignalR.Models;
+﻿@inject ISignalrContext signalr;
+@using MauiBlazor.SignalR;
+@using _SharedSignalR.Models;
 <h3>Client</h3>
 
 @if(page == Pages.ClientJoinRoom)
@@ -14,7 +16,6 @@ else
 }
 
 @code {
-    UserSettings settings = new(); 
     Pages page = Pages.ClientJoinRoom;
 
     //TODO:Validate roomname
@@ -28,7 +29,7 @@ else
         if (!SettingsValidation(settings))
             return;
 
-        this.settings = settings;
+        signalr.Settings = settings;
         page = Pages.ClientLobby;
     }
 }

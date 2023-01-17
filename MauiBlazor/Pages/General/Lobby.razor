@@ -1,5 +1,51 @@
-﻿<h3>Lobby</h3>
+﻿@using MauiBlazor.SignalR;
+@using _SharedSignalR.Models;
+@inject ISignalrContext signalr;
+@*@implements IDisposable;*@
+
+<h3>Lobby - waiting</h3>
+@foreach(var message in messages)
+{
+    @message;
+}
+
+@if(signalr.Connected)
+{
+    <p>Connected</p>
+}
+else
+{
+    <p>Not connected dfgdfzfgnsghn</p>
+}
+
 
 @code {
+    List<IDisposable> disposables = new();
+    Pages page = Pages.ClientLobby;
+    List<string> messages = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        disposables.AddRange(new[] {
+            signalr.OnJoin(OnJoin)
+        });
+
+        await signalr.Start();
+
+        await signalr.JoinRoom();
+
+
+
+    }
+
+    public void OnJoin(JoinRoomData roomData)
+    {
+        page = Pages.ClientPokerVoteView;
+        messages.Add(roomData.User.Username + " has joined. Welcome!");
+    }
+
+    //public void Dispose()
+    //{
+    //    disposables.ForEach(item => item.Dispose());
+    //}
 }

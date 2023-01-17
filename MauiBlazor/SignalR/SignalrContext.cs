@@ -45,7 +45,7 @@ internal class SignalrContext : ISignalrContext
 	public IDisposable OnPokerVote(Action<PokerVote> action) => connection.On<PokerVote>("PokerAnswer", action.Invoke);
 	public IDisposable OnPokerResults(Action<PokerVoteResults> action) => connection.On<PokerVoteResults>("PokerResults", action.Invoke);
 
-	public IDisposable OnJoin(Action<JoinRoomData> action) => connection.On<JoinRoomData>("Join", action.Invoke);
+	public IDisposable OnJoin(Action<JoinRoomData> action) => connection.On<JoinRoomData>("JoinRoom", action.Invoke);
 	public IDisposable OnNavigation(Action<NavigationObject> action) => connection.On<NavigationObject>("Navigation", action.Invoke);
 
 	public async Task SendPokerVote(string vote)
