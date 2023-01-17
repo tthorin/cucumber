@@ -1,72 +1,27 @@
 ﻿@page "/"
-@using Microsoft.AspNetCore.SignalR.Client;
-@inject NavigationManager NavManager;
-@implements IAsyncDisposable;
 
-<div class="app-container">
-    <div class="header">
-        <img src="arrow-back.png" class="header-item item1" />
-        <div class="header-item item2">
-        </div>
-        <div class="header-item appname">
-            5 Dimensions of Agile
-        </div>
-    </div>
-    <div class="main">
-        <div><a href="/joinroom">Join room</a></div>
-        <div></div>
-        <div><a href="/createroom">Create room</a></div>
-        <div></div>
-    </div>
-    <div class="footer">
-        <div class="header-item elicit">
-            Elicit
-        </div>
-        <div class="header-item item2"></div>
-        <div class="header-item item1">
-        </div>
-    </div>
-</div>
+
+@if (pageView == Pages.Home)
+{
+	<div>
+		<div><h4 @onclick="()=>pageView=Pages.ClientJoinRoom">Join room</h4></div>
+		<div><h4 @onclick="()=>pageView=Pages.LeaderCreateRoom">Create room</h4></div>
+	</div>
+}
+else if (pageView == Pages.ClientJoinRoom)
+{
+	<Client />
+}
+else if (pageView == Pages.LeaderCreateRoom)
+{
+	<Leader />
+}
+else
+{
+	<h1>Oops, something went wrong :(</h1>
+}
 
 
 @code {
-    HubConnection hubConnection;
-    List<string> messages = new();
-    string messageInput = "";
-
-    protected override async Task OnInitializedAsync()
-    {
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:7242/signalr")
-
-            .WithAutomaticReconnect()
-            .Build();
-
-        hubConnection.On<string>("ReceiveMessage", (msg) =>
-        {
-            messages.Add(msg);
-            InvokeAsync(StateHasChanged);
-        });
-
-        await hubConnection.StartAsync();
-
-        await base.OnInitializedAsync();
-    }
-
-    private async Task Send()
-    {
-        if(hubConnection is not null)
-        {
-            await hubConnection.SendAsync("SendMessageToUsers", messageInput);
-            messageInput = "";
-        }
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (hubConnection is not null)
-        {
-            await hubConnection.DisposeAsync();
-        }
-    }
+	private Pages pageView = Pages.Home;
 }
