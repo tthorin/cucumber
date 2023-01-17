@@ -60,6 +60,7 @@
     <ItemGroup>
       <Folder Include="Components\Common\" />
       <Folder Include="Data\" />
+      <Folder Include="Pages\PokerPlanning\" />
     </ItemGroup>
 
     <Import Project="..\_SharedSignalR\_SharedSignalR.projitems" Label="Shared" />

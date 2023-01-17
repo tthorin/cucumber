@@ -7,6 +7,6 @@ namespace _SharedSignalR.Models.EventModels
 {
 	internal class NavigationObject
 	{
-		public Poker MyProperty { get; set; }
+		public Pages Page { get; set; }
 	}
 }

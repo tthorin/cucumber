@@ -10,6 +10,7 @@
 	using System.Threading.Tasks;
 	using Microsoft.Extensions.Configuration;
 	using System.Diagnostics;
+	using _SharedSignalR.Models.EventModels;
 
 	internal class SignalrContext : ISignalrContext
 	{
@@ -48,6 +49,7 @@
 		public IDisposable OnPokerResults(Action<PokerVoteResults> action) => connection.On<PokerVoteResults>("PokerResults", action.Invoke);
 
 		public IDisposable OnJoin(Action<JoinRoomData> action) => connection.On<JoinRoomData>("Join", action.Invoke);
+		public IDisposable OnNavigation(Action<NavigationObject> action) => connection.On<NavigationObject>("Navigation", action.Invoke);
 
 		public async Task SendPokerVote(string vote)
 		{

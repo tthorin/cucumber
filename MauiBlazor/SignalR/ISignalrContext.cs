@@ -1,4 +1,5 @@
 ﻿using _SharedSignalR.Models;
+using _SharedSignalR.Models.EventModels;
 using Microsoft.Extensions.Configuration;
 
 namespace MauiBlazor.SignalR
@@ -10,10 +11,12 @@ namespace MauiBlazor.SignalR
 		ValueTask DisposeAsync();
 		Task SendPokerVote(string vote);
 		Task SendPokerQuestion(string feature);
+		Task SendNavigationObject(Page navigationObject);
 		Task Join();
 		IDisposable OnPokerQuestion(Action<PokerObject> action);
 		IDisposable OnJoin(Action<JoinRoomData> action);
 		IDisposable OnPokerVote(Action<PokerVote> action);
 		IDisposable OnPokerResults(Action<PokerVote> action);
+		IDisposable OnNavigation(Action<NavigationObject> action);
 	}
 }
