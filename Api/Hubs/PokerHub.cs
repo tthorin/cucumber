@@ -10,27 +10,25 @@ public class PokerHub : Hub
 		await Clients.All.SendAsync("ReceiveMessage", message);
 	}
 
-	public async Task Question(PokerObject question)
+	public async Task PokerQuestion(PokerObject question)
 	{
 		//await Clients.All.SendAsync("Question", question);
-		await Clients.Group(question.RoomName).SendAsync("Question", question);
+		await Clients.Group(question.Room).SendAsync("PokerQuestion", question);
 	}
 
-	public async Task Vote(PokerVote vote)
+	public async Task PokerVote(PokerVote vote)
 	{
-		//await Clients.All.SendAsync("Vote", vote);
 		string[] exluded = { $"{Context.ConnectionId}" };
-		await Clients.GroupExcept(vote.RoomName,exluded).SendAsync("Vote", vote);
+		await Clients.GroupExcept(vote.RoomName,exluded).SendAsync("PokerAnswer", vote);
 	}
 
-	public async Task JoinRoom(PokerClientSettings settings)
+	public async Task JoinRoom(JoinRoomData settings)
 	{
 		var id = Context.ConnectionId;
-		await Groups.AddToGroupAsync(id, settings.Room);
-		//await Vote(new PokerVoteData() { Value = $"{settings.UserName} has joined the room", RoomName = settings.Room });
+		await Groups.AddToGroupAsync(id, settings.User.Room);
 	}
-	public async Task RoomInvite(PokerInvite invite)
+	public async Task PokerResults(PokerVoteResults results)
 	{
-		await Clients.All.SendAsync("RoomInvite", invite);
+		await Clients.Group(results.Room).SendAsync("PokerResults", results);
 	}
 }
