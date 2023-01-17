@@ -1,17 +1,30 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+        <div class="app-container">
+            <div class="header">
+                <a href="index.html">
+                    <img src="arrow-back.png" class="header-item item1" />
+                </a>
+                <div class="header-item item2"></div>
+                <div class="header-item appname">
+                    5 Dimensions of Agile
+                </div>
+            </div>
+            <div class="main">
 
-        <article class="content px-4">
             @Body
-        </article>
+
+            </div>
+            <div class="footer">
+                <div class="header-item elicit">
+                    Elicit
+                </div>
+                <div class="header-item item2"></div>
+                <div class="header-item item1"></div>
+            </div>
+        </div>
     </main>
 </div>

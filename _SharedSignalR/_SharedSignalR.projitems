@@ -9,9 +9,15 @@
     <Import_RootNamespace>_SharedSignalR</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerInvite.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerDTO.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerVoteData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)PokerData\PokerQuestionData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EventModels\NavigationObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EventModels\PokerVoteResults.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EventModels\JoinRoomData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EventModels\PokerVote.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EventModels\PokerObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\Pages.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Enums\" />
   </ItemGroup>
 </Project>

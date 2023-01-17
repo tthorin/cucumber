@@ -1,0 +1,104 @@
+﻿@page "/createroom";
+@using MauiBlazor.SignalR;
+@using Microsoft.AspNetCore.SignalR.Client;
+@using _SharedSignalR.Models;
+
+<div class="app-container">
+	<div class="main">
+		<div>
+			@if (page == PokerLeaderPages.EnterRoomName)
+			{
+				<input @bind="roomInput" placeholder="Room name" />
+			}
+			@if(page == PokerLeaderPages.EnterFeature)
+			{
+				<span>Room: @_room</span><br />
+				<textarea @bind="Question" class="feature-input" placeholder="Feature"></textarea><br />
+				<a @onclick="SendQuestion">Send</a>
+			}
+
+		</div>
+		<div></div>
+		<div></div>
+		<div>
+			@if(page==0)
+			{
+				<a @onclick="RoomSubmit">Create</a>
+			}
+			@if(page==2)
+			{
+				<span>@Question</span><br />
+				<span>Votes: @Votes.Count()</span><br />
+				@foreach (var vote in Votes)
+				{
+					<p>@vote.Username has voted.</p>
+				}
+				<a @onclick="() => page++">Show results</a>
+			}
+			@if(page == 3)
+			{
+				<table>
+					<tr>
+						<th>User</th>
+						<th>Vote</th>
+					</tr>
+					@foreach(var vote in Votes)
+					{
+						<tr>
+							<td>@vote.Username</td>
+							<td>@vote.Answer</td>
+						</tr>
+					}		
+				</table>
+				<br /><br />
+				<a @onclick="NextFeature">Next feature</a>
+			}
+		</div>
+	</div>
+</div>
+
+@code {
+	private ISignalrContext signalr;
+	private SignalrContextSettings settings = new();
+	public List<PokerObject> Questions { get; set; } = new();
+	public List<PokerVote> Votes { get; set; } = new();
+	public string Question { get; set; } = "";
+	private string roomInput = "";
+	private bool roomJoined;
+	private PokerLeaderPages page = PokerLeaderPages.EnterRoomName;
+
+	private async Task OnRoomSubmitted(string room)
+	{
+		settings.Room = room;
+		page = PokerLeaderPages.EnterFeature;
+
+		await Connect();
+	}
+
+	private async Task Connect()
+	{
+		signalr = new SignalrPokerContext(settings);
+
+		signalr.OnPokerVote((vote) =>
+		{
+			Votes.Add(vote);
+			InvokeAsync(StateHasChanged);
+		});
+
+		await signalr.Start();
+	}
+
+	private async Task Feature(string feature)
+	{
+		await Feature(feature);
+
+		page++;
+	}
+
+	private void NextFeature()
+	{
+		page++;
+		Question = "";
+		Votes = new();
+	}
+}

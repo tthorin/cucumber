@@ -3,20 +3,31 @@
 @inject NavigationManager NavManager;
 @implements IAsyncDisposable;
 
-<h1>Hello, world!</h1>
+<div class="app-container">
+    <div class="header">
+        <img src="arrow-back.png" class="header-item item1" />
+        <div class="header-item item2">
+        </div>
+        <div class="header-item appname">
+            5 Dimensions of Agile
+        </div>
+    </div>
+    <div class="main">
+        <div><a href="/joinroom">Join room</a></div>
+        <div></div>
+        <div><a href="/createroom">Create room</a></div>
+        <div></div>
+    </div>
+    <div class="footer">
+        <div class="header-item elicit">
+            Elicit
+        </div>
+        <div class="header-item item2"></div>
+        <div class="header-item item1">
+        </div>
+    </div>
+</div>
 
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
-
-Messages:
-@foreach(string message in messages)
-{
-    <p>@message</p>
-}
-
-<input @bind=messageInput />
-<button @onclick=Send>Send!</button>
 
 @code {
     HubConnection hubConnection;
@@ -26,7 +37,7 @@ Messages:
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(/*NavManager.ToAbsoluteUri("/signalr")*/"https://localhost:7242/signalr")
+            .WithUrl("https://localhost:7242/signalr")
 
             .WithAutomaticReconnect()
             .Build();
