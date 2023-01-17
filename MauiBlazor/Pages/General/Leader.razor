@@ -1,9 +1,61 @@
-﻿@inject ISignalrContext signalR
+﻿@using _SharedSignalR.Models
+@inject ISignalrContext signalR
 <div>
-
+	@if (nav == Pages.LeaderCreateRoom)
+	{
+		<h1>@roomName</h1>
+		<div>
+			<button @onclick="GenerateRandomRoomName">Get another name</button>
+			<button @onclick="CreateRoom">Create Room</button>
+		</div>
+		@if (signalR.Connected)
+		{
+			<code>Connected</code>
+		}
+		else
+		{
+			<code>Not connected</code>
+		}
+	}
+	else
+	{	
+		<LeaderSelectMode/>
+	}
 </div>
 
 @code {
-	private SignalrContextSettings 
+	private Pages nav = Pages.LeaderCreateRoom;
+	private string roomName = "";
+
+	public Leader()
+	{
+		GenerateRandomRoomName();
+	}
+	private async Task CreateRoom()
+	{
+		signalR.Settings.Room = roomName;
+		await signalR.Start();
+		await signalR.JoinRoom();
+		if (signalR.Connected) nav = Pages.LeaderSelectMode;
+	}
+
+	private void GenerateRandomRoomName()
+	{
+		var random = new Random();
+		string[] firstWord =
+			{ 
+			"Amazing",
+			"Brave",
+			"Charismatic"
+		};
+		string[] secondWord =
+		{
+			"Anaconda",
+			"Balloon",
+			"Canoe"
+		};
+		roomName= firstWord[random.Next(firstWord.Length)] + " " + secondWord[random.Next(secondWord.Length)];
+
+	}
 
 }

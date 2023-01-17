@@ -1,0 +1,16 @@
+﻿@inject ISignalrContext signalR
+
+<h3>LeaderSelectMode</h3>
+@if(signalR.Connected)
+{
+<code>Another component, and, still connected</code>
+	
+}
+else
+{
+	<code>Another component, and, now disconnectd :(</code>
+
+}
+@code {
+
+}

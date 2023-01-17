@@ -13,6 +13,7 @@ internal interface ISignalrContext
 	Task SendPokerQuestion(PokerObject question);
 	Task SendNavigationObject(Pages navigation);
 	Task JoinRoom();
+	public bool Connected { get; }
 	IDisposable OnPokerQuestion(Action<PokerObject> action);
 	IDisposable OnJoin(Action<JoinRoomData> action);
 	IDisposable OnPokerVote(Action<PokerVote> action);
