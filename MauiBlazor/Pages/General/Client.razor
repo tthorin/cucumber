@@ -1,5 +1,34 @@
-﻿<h3>Client</h3>
+﻿@using _SharedSignalR.Models;
+<h3>Client</h3>
+
+@if(page == Pages.ClientJoinRoom)
+{
+    <JoinRoom OnSubmitted="OnRoomSubmitted" />
+}
+else if(page == Pages.ClientLobby) {
+    <Lobby />
+}
+else
+{
+    <h2>Something went wrong. Unexpected page.</h2>
+}
 
 @code {
+    UserSettings settings = new(); 
+    Pages page = Pages.ClientJoinRoom;
 
+    //TODO:Validate roomname
+    bool RoomNameValidation(string room)
+    {
+        return true;
+    }
+
+    void OnRoomSubmitted(string room)
+    {
+        if (!RoomNameValidation(room))
+            return;
+
+        settings.Room = room;
+        page = Pages.ClientLobby;
+    }
 }
