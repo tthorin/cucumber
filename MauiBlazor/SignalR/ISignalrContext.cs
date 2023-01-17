@@ -11,8 +11,9 @@ namespace MauiBlazor.SignalR
 		Task SendPokerVote(string vote);
 		Task SendPokerQuestion(string feature);
 		Task Join();
-		void OnPokerQuestion(Action<PokerObject> action);
-		void OnJoin(Action<JoinRoomData> action);
-		void OnPokerVote(Action<PokerVote> action);
+		IDisposable OnPokerQuestion(Action<PokerObject> action);
+		IDisposable OnJoin(Action<JoinRoomData> action);
+		IDisposable OnPokerVote(Action<PokerVote> action);
+		IDisposable OnPokerResults(Action<PokerVote> action);
 	}
 }

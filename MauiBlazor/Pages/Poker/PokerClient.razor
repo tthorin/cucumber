@@ -1,6 +1,7 @@
 ﻿@page "/joinroom"
 @using MauiBlazor.SignalR;
 @using _SharedSignalR.Models;
+@implements IDisposable;
 @inject NavigationManager NavManager;
 @inject ISignalrContext Signalr;
 
@@ -32,6 +33,7 @@
 	private UserSettings settings = new();
 	private PokerClientPages page = PokerClientPages.EnterUsername;
 	private string vote = "";
+	private List<IDisposable> disposables;
 
 	private void OnUsernameSubmitted(string username)
 	{
@@ -51,8 +53,11 @@
 	{
 		Signalr.Settings = settings;
 
-		Signalr.OnPokerQuestion((feature) => features.Add(feature));
-		Signalr.OnJoin((user) => users.Add(user));
+		disposables.AddRange(new []
+		{
+			Signalr.OnPokerQuestion((feature) => features.Add(feature)),
+			Signalr.OnJoin((user) => users.Add(user))
+	});
 
 		await Signalr.Start();
 	}
@@ -69,5 +74,11 @@
 	{
 		await Signalr.Join();
 		page++;
+	}
+
+	public void Dispose()
+	{
+		foreach (var dispose in disposables)
+			dispose.Dispose();
 	}
 }
