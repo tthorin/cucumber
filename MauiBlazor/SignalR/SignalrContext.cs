@@ -59,7 +59,7 @@ internal class SignalrContext : ISignalrContext
 		};
 
 		if(Connected)
-			await connection.SendAsync("Vote", pokerVoteData);
+			await connection.SendAsync("PokerVote", pokerVoteData);
 	}
 
 	public async Task SendPokerQuestion(PokerObject question)
@@ -68,24 +68,24 @@ internal class SignalrContext : ISignalrContext
 			await connection.SendAsync("PokerQuestion", question);
 	}
 
-	public async Task Join()
+	public async Task JoinRoom()
 	{
 		if (Connected)
 			await connection.SendAsync("JoinRoom", new JoinRoomData { User = Settings });
 	}
 
-	public async ValueTask DisposeAsync()
-	{
-		if (connection is not null)
-		{
-			await connection.DisposeAsync();
-		}
-	}
 
 	public async Task SendNavigationObject(Pages navigation)
 	{
 		NavigationObject nav = new() { Page = navigation };
 		if (Connected)
 			await connection.SendAsync("Navigation", nav);
+	}
+	public async ValueTask DisposeAsync()
+	{
+		if (connection is not null)
+		{
+			await connection.DisposeAsync();
+		}
 	}
 }

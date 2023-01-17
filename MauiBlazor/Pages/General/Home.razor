@@ -4,8 +4,8 @@
 @if (pageView == Pages.Home)
 {
 	<div>
-		<div><h4 @onclick="()=>pageView=Pages.ClientJoinRoom">Join room</h4></div>
-		<div><h4 @onclick="()=>pageView=Pages.LeaderCreateRoom">Create room</h4></div>
+		<h4 @onclick="()=>pageView=Pages.ClientJoinRoom">Join room</h4>
+		<h4 @onclick="()=>pageView=Pages.LeaderCreateRoom">Create room</h4>
 	</div>
 }
 else if (pageView == Pages.ClientJoinRoom)
@@ -24,5 +24,4 @@ else
 
 @code {
 	private Pages pageView = Pages.Home;
-	private int number = 0;
 }
