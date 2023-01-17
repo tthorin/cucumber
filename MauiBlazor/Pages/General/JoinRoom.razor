@@ -1,15 +1,19 @@
-﻿<input @bind="roomname" placeholder="Room name" /><br />
+﻿@using _SharedSignalR.Models;
+<input @bind="settings.Username" placeholder="Your name" /><br />
+<input @bind="settings.Room" placeholder="Room name" /><br />
 <a @onclick="OnSubmit">Join</a>
 
 @code {
+    UserSettings settings = new();
     public string roomname = "";
+    public string username = "";
 
     [Parameter]
-    public EventCallback<string> OnSubmitted { get; set; }
+    public EventCallback<UserSettings> OnSubmitted { get; set; }
 
     public async Task OnSubmit()
     {
-        await OnSubmitted.InvokeAsync(roomname);
+        await OnSubmitted.InvokeAsync(settings);
     }
 
 }

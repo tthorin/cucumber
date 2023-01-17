@@ -18,17 +18,17 @@ else
     Pages page = Pages.ClientJoinRoom;
 
     //TODO:Validate roomname
-    bool RoomNameValidation(string room)
+    bool SettingsValidation(UserSettings settings)
     {
         return true;
     }
 
-    void OnRoomSubmitted(string room)
+    void OnRoomSubmitted(UserSettings settings)
     {
-        if (!RoomNameValidation(room))
+        if (!SettingsValidation(settings))
             return;
 
-        settings.Room = room;
+        this.settings = settings;
         page = Pages.ClientLobby;
     }
 }
