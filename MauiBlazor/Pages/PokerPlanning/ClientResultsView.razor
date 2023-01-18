@@ -1,20 +1,20 @@
-﻿@inject ISignalrContext signalr;
+﻿@using MauiBlazor.Pages.General;
 @using MauiBlazor.SignalR;
 @using _SharedSignalR.Models;
-<h3>ClientResultsView</h3>
+@inject ISignalrContext signalr;
 
 <table>
+<tr>
+    <th>Name</th>
+    <th>Vote</th>
+</tr>
+@foreach (var result in results.Votes)
+{
     <tr>
-        <th>Name</th>
-        <th>Vote</th>
+        <td>result.Username</td>
+        <td>result.Answer</td>
     </tr>
-    @foreach (var result in results.Votes)
-    {
-        <tr>
-            <td>@result.Username</td>
-            <td>@result.Answer</td>
-        </tr>
-    }
+}
 </table>
 
 @code {

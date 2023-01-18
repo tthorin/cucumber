@@ -18,6 +18,7 @@ internal class SignalrContext : ISignalrContext
 	public bool Connected { get; private set; }
 	IConfiguration _configuration;
 
+
 	public SignalrContext(IConfiguration configuration)
 	{
 		_configuration = configuration;
@@ -41,7 +42,16 @@ internal class SignalrContext : ISignalrContext
 		}
 	}
 
-	public IDisposable OnPokerQuestion(Action<PokerObject> action) => connection.On<PokerObject>("PokerQuestion", action.Invoke);
+	public async Task<bool> GroupNameExists(string groupName)
+	{
+		return await connection.InvokeAsync<bool>("GroupNameExists", groupName);
+    }
+	public async Task<bool> AddGroupName(string groupName)
+	{
+		return await connection.InvokeAsync<bool>("AddGroupName", groupName);
+    }
+
+    public IDisposable OnPokerQuestion(Action<PokerObject> action) => connection.On<PokerObject>("PokerQuestion", action.Invoke);
 	public IDisposable OnPokerVote(Action<PokerVote> action) => connection.On<PokerVote>("PokerAnswer", action.Invoke);
 	public IDisposable OnPokerResults(Action<PokerVoteResults> action) => connection.On<PokerVoteResults>("PokerResults", action.Invoke);
 

@@ -2,10 +2,10 @@
 @using MauiBlazor.SignalR;
 @using _SharedSignalR.Models;
 @inject ISignalrContext signalr;
-<h3>ClientVoteView</h3>
 
 <fieldset>
-
+    <h2>@Question.Title</h2>
+    <img src="@Question.Image" />
     @foreach(var alternative in Question.Answers)
     {
         <div>
@@ -30,9 +30,9 @@
         selectedValue = args.Value.ToString();
     }
 
-    void OnSubmit()
+    async Task OnSubmit()
     {
-        signalr.SendPokerVote(selectedValue);
-        _Parent.ChangePage(Pages.ClientPokerResultsView);
+        await signalr.SendPokerVote(selectedValue);
+        await _Parent.ChangePage(Pages.ClientPokerResultsView);
     }
 }

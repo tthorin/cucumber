@@ -1,11 +1,11 @@
 ﻿@inject ISignalrContext signalr;
 @using MauiBlazor.SignalR;
 @using _SharedSignalR.Models;
-<h3>Client</h3>
 
 @if(page == Pages.ClientJoinRoom)
 {
     <JoinRoom OnSubmitted="OnRoomSubmitted" />
+    <p>@NameExists</p>
 }
 else if(page == Pages.ClientLobby) {
     <Lobby />
@@ -17,19 +17,35 @@ else
 
 @code {
     Pages page = Pages.ClientJoinRoom;
+    public string NameExists { get; set; } = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await signalr.Start();
+    }
 
     //TODO:Validate roomname
-    bool SettingsValidation(UserSettings settings)
+    async Task<bool> SettingsValidation(UserSettings settings)
     {
+        if (!(await signalr.GroupNameExists(settings.Room)))
+        {
+            NameExists = "Group doesn't exist";
+
+            await InvokeAsync(StateHasChanged);
+            return false;
+        }
+
         return true;
     }
 
-    void OnRoomSubmitted(UserSettings settings)
+    async void OnRoomSubmitted(UserSettings settings)
     {
-        if (!SettingsValidation(settings))
+        if (!(await SettingsValidation(settings)))
             return;
 
         signalr.Settings = settings;
         page = Pages.ClientLobby;
+
+        await InvokeAsync(StateHasChanged);
     }
 }
