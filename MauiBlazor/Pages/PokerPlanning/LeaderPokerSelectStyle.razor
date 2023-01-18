@@ -1,0 +1,68 @@
+@using _SharedSignalR.Models;
+@inject ISignalrContext signalR
+@implements IDisposable
+
+<button @onclick="SendQuestion">Send question</button>
+<!--start for debug purpose-->
+<code>Question received: @questionReceived</code>
+<!--end for debug purpose-->
+
+@code {
+	[Parameter]
+	public Pages PokerNav { get; set; }
+	[Parameter]
+	public EventCallback<Pages> PokerNavChanged { get; set; }
+
+	private PokerObject question;
+	//questionReceived = debug var
+	private bool questionReceived;
+	private List<IDisposable> disposables = new();
+
+	protected override void OnInitialized()
+	{
+		question = new()
+			{
+				Room = signalR.Settings.Room,
+				Title = "T-shirt",
+				Answers = new()
+				{
+					"XXL",
+					"XL",
+					"X",
+					"L",
+					"M",
+					"S",
+					"coffee",
+					"infinity"
+				},
+				Image = "/Images/shirt.svg"
+			};
+
+		//register event listener for debug purpose, to be removed
+		disposables.Add(signalR.OnPokerQuestion(GotQuestion));
+	}
+
+	//debug method, to be removed
+	private async void GotQuestion(PokerObject obj)
+	{
+		questionReceived = true;
+		await InvokeAsync(StateHasChanged);
+	}
+
+
+
+	private async void SendQuestion()
+	{
+		await signalR.SendPokerQuestion(question);
+		await PokerNavChanged.InvokeAsync(Pages.ClientPokerResultsView);
+
+	}
+
+	public void Dispose()
+	{
+		foreach (var item in disposables)
+		{
+			item.Dispose();
+		}
+	}
+}
