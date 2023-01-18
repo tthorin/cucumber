@@ -53,6 +53,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Resources\Images\calendar_week.svg" />
+      <None Remove="Resources\Images\infinity.svg" />
+      <None Remove="Resources\Images\mug_hot.svg" />
+      <None Remove="Resources\Images\shirt.svg" />
+      <None Remove="Resources\Images\users.svg" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.1" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     </ItemGroup>
@@ -60,7 +68,13 @@
     <ItemGroup>
       <Folder Include="Components\Common\" />
       <Folder Include="Data\" />
-      <Folder Include="Pages\PokerPlanning\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <MauiImage Include="wwwroot\Images\calendar_week.svg" />
+      <MauiImage Include="wwwroot\Images\infinity.svg" />
+      <MauiImage Include="wwwroot\Images\mug_hot.svg" />
+      <MauiImage Include="wwwroot\Images\users.svg" />
     </ItemGroup>
 
     <Import Project="..\_SharedSignalR\_SharedSignalR.projitems" Label="Shared" />

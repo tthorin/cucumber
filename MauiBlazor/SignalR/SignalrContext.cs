@@ -13,7 +13,7 @@ internal class SignalrContext : ISignalrContext
 {
 	const string URL = "https://localhost:7242/signalr";
 
-	public UserSettings Settings { get; set; }
+	public UserSettings Settings { get; set; } = new();
 	HubConnection connection;
 	public bool Connected { get; private set; }
 	IConfiguration _configuration;

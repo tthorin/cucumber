@@ -1,0 +1,25 @@
+﻿@using MauiBlazor.Pages.PokerPlanning
+@inject ISignalrContext signalR
+
+@if (nav == Pages.LeaderSelectMode)
+{
+	<h3>Room: @signalR.Settings.Room</h3>
+	<div class="button-container">
+		<button @onclick="()=>nav=Pages.LeaderPokerSelectStyle"><img src="/Images/users.svg" />Poker planning</button>
+		<button @onclick="()=>nav=Pages.LeaderAssessmentStart"><img src="/Images/magnifying-glass-chart.svg" />Assessment</button>
+	</div>
+}
+else if(nav==Pages.LeaderPokerSelectStyle)
+{
+	<LeaderPoker @bind-NavBack="nav"/>
+}
+else if (nav == Pages.LeaderAssessmentStart)
+{
+	<h1>Assessments</h1>
+	<p>Not implemented...</p>
+	<button @onclick="()=>nav=Pages.LeaderSelectMode">Back</button>
+}
+
+@code {
+	private Pages nav = Pages.LeaderSelectMode;
+}
