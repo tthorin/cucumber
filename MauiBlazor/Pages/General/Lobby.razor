@@ -1,14 +1,13 @@
 ﻿@using MauiBlazor.Pages.PokerPlanning
 @using MauiBlazor.SignalR;
-@using System.Diagnostics;
 @using _SharedSignalR.Models;
 @inject ISignalrContext signalr;
 @implements IDisposable;
 
-<h3>Lobby - waiting</h3>
-
 @if(page == Pages.ClientLobby)
 {
+    <h3>Lobby - waiting...</h3>
+
     @foreach(var message in messages)
     {
         @message;
@@ -63,10 +62,9 @@ else if (page == Pages.ClientPokerResultsView)
 
     public async void OnPokerQuestion(PokerObject pokerObject)
     {
-        page = Pages.ClientPokerVoteView;
         question = pokerObject;
 
-        await InvokeAsync(StateHasChanged);
+        await ChangePage(Pages.ClientPokerVoteView);
     }
 
     public void OnPokerResults(PokerVoteResults results)
@@ -75,10 +73,10 @@ else if (page == Pages.ClientPokerResultsView)
         page = Pages.ClientPokerResultsView;
     }
 
-    public void ChangePage(Pages page)
+    public async Task ChangePage(Pages page)
     {
         this.page = page;
-        this.StateHasChanged();
+        await InvokeAsync(this.StateHasChanged);
     }
 
     public void Dispose()

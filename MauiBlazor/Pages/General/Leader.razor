@@ -12,6 +12,7 @@
 			<button @onclick="CreateRoom">Create Room</button>
 		</div>
 		<div>
+			@errorMessage;
 			@if (signalR.Connected)
 			{
 				<code>Connected</code>
@@ -32,6 +33,7 @@
 
 	private Pages nav = Pages.LeaderCreateRoom;
 	private string roomName = "";
+	private string errorMessage = "";
 
 	public Leader()
 	{
@@ -41,6 +43,13 @@
 	{
 		signalR.Settings.Room = roomName;
 		await signalR.Start();
+
+		if(!(await signalR.AddGroupName(roomName)))
+		{
+			errorMessage = "Room name already exists";
+			return;
+		}
+
 		await signalR.JoinRoom();
 		if (signalR.Connected) nav = Pages.LeaderSelectMode;
 	}

@@ -5,7 +5,20 @@ using Microsoft.AspNetCore.SignalR;
 
 public class PokerHub : Hub
 {
-	public async Task SendMessageToUsers(string message)
+	IGroupNamesService _groupNamesService;
+	public PokerHub(IGroupNamesService groupNamesService)
+	{
+		_groupNamesService = groupNamesService;
+	}
+    public bool GroupNameExists(string groupName)
+    {
+		return _groupNamesService.GroupNames.Contains(groupName);
+    }
+    public bool AddGroupName(string groupName)
+    {
+        return _groupNamesService.GroupNames.Add(groupName);
+    }
+    public async Task SendMessageToUsers(string message)
 	{
 		await Clients.All.SendAsync("ReceiveMessage", message);
 	}

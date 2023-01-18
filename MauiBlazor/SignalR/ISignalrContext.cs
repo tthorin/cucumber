@@ -15,6 +15,8 @@ internal interface ISignalrContext
 	Task SendNavigationObject(Pages navigation);
 	Task JoinRoom();
 	Task SendPokerVoteResult(PokerVoteResults results);
+    Task<bool> GroupNameExists(string groupName);
+    Task<bool> AddGroupName(string groupName);
 	IDisposable OnPokerQuestion(Action<PokerObject> action);
 	IDisposable OnJoin(Action<JoinRoomData> action);
 	IDisposable OnPokerVote(Action<PokerVote> action);
