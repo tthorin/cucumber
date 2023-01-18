@@ -6,13 +6,13 @@
 <button @onclick="()=>PokerNavChanged.InvokeAsync(Pages.LeaderPokerSelectStyle)">Close Vote</button>
 <h3>Room: @signalR.Settings.Room</h3>
 <h1>Votes:</h1>
-@if (votes.Count == 0)
+@if (votes.Votes.Count == 0)
 {
 	<p>Waiting for votes...</p>
 }
 else
 {
-	@foreach (var vote in votes.OrderBy(x => x.Answer))
+	@foreach (var vote in votes.Votes.OrderBy(x => x.Answer))
 	{
 		<p>@vote.Username voted @vote.Answer</p>
 	}
@@ -26,21 +26,22 @@ else
 	[Parameter]
 	public EventCallback<Pages> PokerNavChanged { get; set; }
 
-	private List<PokerVote> votes;
+	private PokerVoteResults votes;
 	private List<IDisposable> disposables = new();
 
 	protected override void OnInitialized()
 	{
-		votes = new();
+		votes = new() {Room=signalR.Settings.Room};
 		disposables.AddRange(new[]
 		{
 			signalR.OnPokerVote(OnPokerVote)
-		});
+	});
 	}
 
 	private async void OnPokerVote(PokerVote vote)
 	{
-		votes.Add(vote);
+		votes.Votes.Add(vote);
+		await signalR.SendPokerVoteResult(votes);
 		await InvokeAsync(StateHasChanged);
 	}
 
