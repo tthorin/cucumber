@@ -54,7 +54,7 @@
 	private async void SendQuestion()
 	{
 		await signalR.SendPokerQuestion(question);
-		await PokerNavChanged.InvokeAsync(Pages.ClientPokerResultsView);
+		//await PokerNavChanged.InvokeAsync(Pages.ClientPokerResultsView);
 
 	}
 
