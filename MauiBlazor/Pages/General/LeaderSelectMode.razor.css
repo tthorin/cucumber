@@ -1,0 +1,11 @@
+﻿.button-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0.5em;
+    
+}
+button {
+    margin: 0.5em;
+    border: none;
+    background-color: inherit;
+}

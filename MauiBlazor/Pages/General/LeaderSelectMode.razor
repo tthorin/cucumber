@@ -1,16 +1,25 @@
-﻿@inject ISignalrContext signalR
+﻿@using MauiBlazor.Pages.PokerPlanning
+@inject ISignalrContext signalR
 
-<h3>LeaderSelectMode</h3>
-@if(signalR.Connected)
+@if (nav == Pages.LeaderSelectMode)
 {
-<code>Another component, and, still connected</code>
-	
+	<h3>Room: @signalR.Settings.Room</h3>
+	<div class="button-container">
+		<button @onclick="()=>nav=Pages.LeaderPokerSelectStyle"><img src="/Images/users.svg" />Poker planning</button>
+		<button @onclick="()=>nav=Pages.LeaderAssessmentStart"><img src="/Images/magnifying-glass-chart.svg" />Assessment</button>
+	</div>
 }
-else
+else if(nav==Pages.LeaderPokerSelectStyle)
 {
-	<code>Another component, and, now disconnectd :(</code>
+	<LeaderPoker @bind-NavBack="nav"/>
+}
+else if (nav == Pages.LeaderAssessmentStart)
+{
+	<h1>Assessments</h1>
+	<p>Not implemented...</p>
+	<button @onclick="()=>nav=Pages.LeaderSelectMode">Back</button>
+}
 
-}
 @code {
-
+	private Pages nav = Pages.LeaderSelectMode;
 }

@@ -1,0 +1,23 @@
+﻿<button @onclick="()=>NavBackChanged.InvokeAsync(Pages.LeaderSelectMode)">Back to mode select</button>
+@if (pokerNav == Pages.LeaderPokerSelectStyle)
+{
+	<LeaderPokerSelectStyle @bind-PokerNav="pokerNav"/>
+}
+else if(pokerNav == Pages.LeaderPokerResultView)
+{
+	<h1>Result view not done</h1>
+}
+else
+{
+	<code>In LeaderPoker.razor, something went wrong =(</code>
+}
+
+@code {
+	[Parameter]
+	public Pages NavBack { get; set; }
+
+	[Parameter]
+	public EventCallback<Pages> NavBackChanged { get; set; }
+
+	private Pages pokerNav = Pages.LeaderPokerSelectStyle;
+}
