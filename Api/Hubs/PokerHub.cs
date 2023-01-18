@@ -24,7 +24,7 @@ public class PokerHub : Hub
 
 	public async Task JoinRoom(JoinRoomData settings)
 	{
-		var id = Context.ConnectionId;
+        var id = Context.ConnectionId;
 		await Groups.AddToGroupAsync(id, settings.User.Room);
         await Clients.GroupExcept(settings.User.Room, id).SendAsync("JoinRoom", settings);
     }

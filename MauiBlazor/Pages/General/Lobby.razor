@@ -1,23 +1,36 @@
-﻿@using MauiBlazor.SignalR;
+﻿@using MauiBlazor.Pages.Poker
+@using MauiBlazor.SignalR;
+@using System.Diagnostics;
 @using _SharedSignalR.Models;
 @inject ISignalrContext signalr;
-@*@implements IDisposable;*@
+@implements IDisposable;
 
 <h3>Lobby - waiting</h3>
-@foreach(var message in messages)
-{
-    @message;
-}
 
-@if(signalr.Connected)
+@if(page == Pages.ClientLobby)
 {
-    <p>Connected</p>
-}
-else
-{
-    <p>Not connected dfgdfzfgnsghn</p>
-}
+    @foreach(var message in messages)
+    {
+        @message;
+    }
 
+    @if(signalr.Connected)
+    {
+        <p>Connected</p>
+    }
+    else
+    {
+        <p>Not connected</p>
+    }
+}
+else if (page == Pages.ClientPokerVoteView)
+{
+    <ClientVoteView />
+}
+else if (page == Pages.ClientPokerResultsView)
+{
+    <ClientResultsView />
+}
 
 @code {
     List<IDisposable> disposables = new();
@@ -27,25 +40,35 @@ else
     protected override async Task OnInitializedAsync()
     {
         disposables.AddRange(new[] {
-            signalr.OnJoin(OnJoin)
-        });
+            signalr.OnJoin(OnJoin),
+            signalr.OnPokerQuestion(OnPokerQuestion),
+            signalr.OnPokerResults(OnPokerResults)
+    });
 
         await signalr.Start();
 
         await signalr.JoinRoom();
-
-
-
     }
 
-    public void OnJoin(JoinRoomData roomData)
+    public async void OnJoin(JoinRoomData roomData)
+    {
+        messages.Add(roomData.User.Username + " has joined. Welcome!");
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void OnPokerQuestion(PokerObject pokerObject)
     {
         page = Pages.ClientPokerVoteView;
-        messages.Add(roomData.User.Username + " has joined. Welcome!");
     }
 
-    //public void Dispose()
-    //{
-    //    disposables.ForEach(item => item.Dispose());
-    //}
+    public void OnPokerResults(PokerVoteResults results)
+    {
+        page = Pages.ClientPokerResultsView;
+    }
+
+    public void Dispose()
+    {
+        disposables.ForEach(item => item.Dispose());
+    }
 }
