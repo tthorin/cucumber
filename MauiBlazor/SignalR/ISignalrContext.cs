@@ -7,6 +7,7 @@ using _SharedSignalR.Enums;
 internal interface ISignalrContext
 {
 	public UserSettings Settings { get; set; }
+	public bool Connected { get; }
 	Task Start();
 	ValueTask DisposeAsync();
 	Task SendPokerVote(string vote);

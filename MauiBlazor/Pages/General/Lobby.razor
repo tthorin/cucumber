@@ -1,5 +1,74 @@
-﻿<h3>Lobby</h3>
+﻿@using MauiBlazor.Pages.Poker
+@using MauiBlazor.SignalR;
+@using System.Diagnostics;
+@using _SharedSignalR.Models;
+@inject ISignalrContext signalr;
+@implements IDisposable;
+
+<h3>Lobby - waiting</h3>
+
+@if(page == Pages.ClientLobby)
+{
+    @foreach(var message in messages)
+    {
+        @message;
+    }
+
+    @if(signalr.Connected)
+    {
+        <p>Connected</p>
+    }
+    else
+    {
+        <p>Not connected</p>
+    }
+}
+else if (page == Pages.ClientPokerVoteView)
+{
+    <ClientVoteView />
+}
+else if (page == Pages.ClientPokerResultsView)
+{
+    <ClientResultsView />
+}
 
 @code {
+    List<IDisposable> disposables = new();
+    Pages page = Pages.ClientLobby;
+    List<string> messages = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        disposables.AddRange(new[] {
+            signalr.OnJoin(OnJoin),
+            signalr.OnPokerQuestion(OnPokerQuestion),
+            signalr.OnPokerResults(OnPokerResults)
+    });
+
+        await signalr.Start();
+
+        await signalr.JoinRoom();
+    }
+
+    public async void OnJoin(JoinRoomData roomData)
+    {
+        messages.Add(roomData.User.Username + " has joined. Welcome!");
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void OnPokerQuestion(PokerObject pokerObject)
+    {
+        page = Pages.ClientPokerVoteView;
+    }
+
+    public void OnPokerResults(PokerVoteResults results)
+    {
+        page = Pages.ClientPokerResultsView;
+    }
+
+    public void Dispose()
+    {
+        disposables.ForEach(item => item.Dispose());
+    }
 }
