@@ -25,11 +25,13 @@
 }
 else if (page == Pages.ClientPokerVoteView)
 {
-    <ClientVoteView @Question="@question" />
+    <CascadingValue Value="this">
+        <ClientVoteView Question="@question" />
+    </CascadingValue>
 }
 else if (page == Pages.ClientPokerResultsView)
 {
-    <ClientResultsView @Results="@pokerVoteResults" />
+    <ClientResultsView Results="@pokerVoteResults" />
 }
 
 @code {
@@ -59,16 +61,24 @@ else if (page == Pages.ClientPokerResultsView)
         await InvokeAsync(StateHasChanged);
     }
 
-    public void OnPokerQuestion(PokerObject pokerObject)
+    public async void OnPokerQuestion(PokerObject pokerObject)
     {
         page = Pages.ClientPokerVoteView;
         question = pokerObject;
+
+        await InvokeAsync(StateHasChanged);
     }
 
     public void OnPokerResults(PokerVoteResults results)
     {
         pokerVoteResults = results;
         page = Pages.ClientPokerResultsView;
+    }
+
+    public void ChangePage(Pages page)
+    {
+        this.page = page;
+        this.StateHasChanged();
     }
 
     public void Dispose()

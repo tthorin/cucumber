@@ -1,4 +1,5 @@
-﻿@using MauiBlazor.SignalR;
+﻿@using MauiBlazor.Pages.General;
+@using MauiBlazor.SignalR;
 @using _SharedSignalR.Models;
 @inject ISignalrContext signalr;
 <h3>ClientVoteView</h3>
@@ -20,6 +21,8 @@
 @code {
     [Parameter]
     public PokerObject Question{ get; set; }
+    [CascadingParameter]
+    public Lobby _Parent { get; set; }
     string selectedValue = "";
 
     void SelectionChanged(ChangeEventArgs args)
@@ -30,5 +33,6 @@
     void OnSubmit()
     {
         signalr.SendPokerVote(selectedValue);
+        _Parent.ChangePage(Pages.ClientPokerResultsView);
     }
 }
