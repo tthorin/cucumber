@@ -25,17 +25,19 @@
 }
 else if (page == Pages.ClientPokerVoteView)
 {
-    <ClientVoteView />
+    <ClientVoteView @Question="@question" />
 }
 else if (page == Pages.ClientPokerResultsView)
 {
-    <ClientResultsView />
+    <ClientResultsView @Results="@pokerVoteResults" />
 }
 
 @code {
     List<IDisposable> disposables = new();
     Pages page = Pages.ClientLobby;
     List<string> messages = new();
+    PokerObject question = new();
+    PokerVoteResults pokerVoteResults = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,10 +62,12 @@ else if (page == Pages.ClientPokerResultsView)
     public void OnPokerQuestion(PokerObject pokerObject)
     {
         page = Pages.ClientPokerVoteView;
+        question = pokerObject;
     }
 
     public void OnPokerResults(PokerVoteResults results)
     {
+        pokerVoteResults = results;
         page = Pages.ClientPokerResultsView;
     }
 
