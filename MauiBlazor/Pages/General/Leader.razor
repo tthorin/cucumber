@@ -1,5 +1,4 @@
-﻿
-@using MauiBlazor.SignalR;
+﻿@using MauiBlazor.SignalR;
 
 @using _SharedSignalR.Models
 
@@ -12,18 +11,20 @@
 			<button @onclick="GenerateRandomRoomName">Get another name</button>
 			<button @onclick="CreateRoom">Create Room</button>
 		</div>
-		@if (signalR.Connected)
-		{
-			<code>Connected</code>
-		}
-		else
-		{
-			<code>Not connected</code>
-		}
+		<div>
+			@if (signalR.Connected)
+			{
+				<code>Connected</code>
+			}
+			else
+			{
+				<code>Not connected</code>
+			}
+		</div>
 	}
 	else
-	{	
-		<LeaderSelectMode/>
+	{
+		<LeaderSelectMode />
 	}
 </div>
 
@@ -48,18 +49,18 @@
 	{
 		var random = new Random();
 		string[] firstWord =
-			{ 
+			{
 			"Amazing",
 			"Brave",
 			"Charismatic"
-		};
+	};
 		string[] secondWord =
 		{
 			"Anaconda",
 			"Balloon",
 			"Canoe"
-		};
-		roomName= firstWord[random.Next(firstWord.Length)] + " " + secondWord[random.Next(secondWord.Length)];
+	};
+		roomName = firstWord[random.Next(firstWord.Length)] + " " + secondWord[random.Next(secondWord.Length)];
 
 	}
 

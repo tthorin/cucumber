@@ -3,7 +3,11 @@
 {
 	<LeaderPokerSelectStyle @bind-PokerNav="pokerNav"/>
 }
-else if(pokerNav == Pages.LeaderPokerResultView)
+else if(pokerNav == Pages.LeaderPokerResultAwait)
+{
+	<LeaderPokerResultAwait @bind-PokerNav="pokerNav"/>
+}
+else if (pokerNav == Pages.LeaderPokerResultView)
 {
 	<h1>Result view not done</h1>
 }
