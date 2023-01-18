@@ -1,5 +1,34 @@
-﻿<h3>ClientVoteView</h3>
+﻿@using MauiBlazor.SignalR;
+@using _SharedSignalR.Models;
+@inject ISignalrContext signalr;
+<h3>ClientVoteView</h3>
+
+<fieldset>
+
+    @foreach(var alternative in Question.Answers)
+    {
+        <div>
+            <input @onchange="SelectionChanged" type="radio" id="@alternative" name="answer" value="@alternative">
+            <label for="@alternative">@alternative</label>
+        </div>
+    }
+    <div>
+        <button @onclick="OnSubmit" type="submit">Go on...</button>
+    </div> 
+</fieldset>
 
 @code {
+    [Parameter]
+    public PokerObject Question{ get; set; }
+    string selectedValue = "";
 
+    void SelectionChanged(ChangeEventArgs args)
+    {
+        selectedValue = args.Value.ToString();
+    }
+
+    void OnSubmit()
+    {
+        signalr.SendPokerVote(selectedValue);
+    }
 }
