@@ -88,4 +88,10 @@ internal class SignalrContext : ISignalrContext
 			await connection.DisposeAsync();
 		}
 	}
+
+	public async Task SendPokerVoteResult(PokerVoteResults results)
+	{
+		if (Connected)
+			await connection.SendAsync("PokerResults", results);
+	}
 }

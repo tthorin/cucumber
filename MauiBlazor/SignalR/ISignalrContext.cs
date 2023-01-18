@@ -14,6 +14,7 @@ internal interface ISignalrContext
 	Task SendPokerQuestion(PokerObject question);
 	Task SendNavigationObject(Pages navigation);
 	Task JoinRoom();
+	Task SendPokerVoteResult(PokerVoteResults results);
 	IDisposable OnPokerQuestion(Action<PokerObject> action);
 	IDisposable OnJoin(Action<JoinRoomData> action);
 	IDisposable OnPokerVote(Action<PokerVote> action);
