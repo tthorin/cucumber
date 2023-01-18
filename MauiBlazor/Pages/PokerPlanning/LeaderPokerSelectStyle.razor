@@ -2,11 +2,14 @@
 @inject ISignalrContext signalR
 @implements IDisposable
 
-<button @onclick="SendQuestion">Send question</button>
+<div>
+	<button @onclick="SendQuestion">Send question</button>
+</div>
 <!--start for debug purpose-->
-<code>Question received: @questionReceived</code>
+<div>
+	<code>Question received: @questionReceived</code>
+</div>
 <!--end for debug purpose-->
-
 @code {
 	[Parameter]
 	public Pages PokerNav { get; set; }
@@ -54,8 +57,7 @@
 	private async void SendQuestion()
 	{
 		await signalR.SendPokerQuestion(question);
-		await PokerNavChanged.InvokeAsync(Pages.ClientPokerResultsView);
-
+		await PokerNavChanged.InvokeAsync(Pages.LeaderPokerResultAwait);
 	}
 
 	public void Dispose()

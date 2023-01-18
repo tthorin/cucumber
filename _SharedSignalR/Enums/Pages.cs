@@ -11,6 +11,7 @@
 	//Leader Poker
 	LeaderPokerSelectStyle,
 	LeaderPokerResultView,
+	LeaderPokerResultAwait,
 
 	//Leader Assessment
 	LeaderAssessmentStart,

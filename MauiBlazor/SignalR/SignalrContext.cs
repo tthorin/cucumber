@@ -75,7 +75,6 @@ internal class SignalrContext : ISignalrContext
 			await connection.SendAsync("JoinRoom", new JoinRoomData { User = Settings });
 	}
 
-
 	public async Task SendNavigationObject(Pages navigation)
 	{
 		NavigationObject nav = new() { Page = navigation };

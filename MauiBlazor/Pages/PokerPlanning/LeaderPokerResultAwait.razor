@@ -1,0 +1,51 @@
+@using _SharedSignalR.Models;
+@inject ISignalrContext signalR;
+@implements IDisposable;
+
+@*-----------------------------------------------------------------------------------------*@
+<h3>Room: @signalR.Settings.Room</h3>
+<h1>Votes:</h1>
+@if (votes.Count == 0)
+{
+	<p>Waiting for votes...</p>
+}
+else
+{
+	@foreach (var vote in votes)
+	{
+		<p>@vote.Username voted @vote.Answer</p>
+	}
+}
+
+@*-----------------------------------------------------------------------------------------*@
+@code {
+	[Parameter]
+	public Pages PokerNav { get; set; }
+	[Parameter]
+	public EventCallback<Pages> PokerNavChanged { get; set; }
+
+	private List<PokerVote> votes = new();
+	private List<IDisposable> disposables = new();
+
+	protected override void OnInitialized()
+	{
+		disposables.AddRange(new[]
+		{
+			signalR.OnPokerVote(OnPokerVote)
+	});
+	}
+
+	private async void OnPokerVote(PokerVote vote)
+	{
+		votes.Add(vote);
+		await InvokeAsync(StateHasChanged);
+	}
+
+	public void Dispose()
+	{
+		foreach (var item in disposables)
+		{
+			item.Dispose();
+		}
+	}
+}
