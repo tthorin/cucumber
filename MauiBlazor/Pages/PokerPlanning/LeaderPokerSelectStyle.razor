@@ -17,13 +17,13 @@
 	</div>
 </fieldset>-->
 <div class="style-select-container">
-	<button @onclick='()=>selectedStyle="T-shirt"' class="style-select-btn">
+	<button @onclick='()=>HandleClick("T-shirt")' class="style-select-btn">
 		<img src="/Images/shirt.svg" class="@(selectedStyle=="T-shirt"?"selected":"")" />
 	</button>
-	<button @onclick='()=>selectedStyle="Delegation Poker"' class="style-select-btn">
+	<button @onclick='()=>HandleClick("Delegation Poker")' class="style-select-btn">
 		<img src="/Images/truck-fast.svg" class="@(selectedStyle=="Delegation Poker"?"selected":"")" />
 	</button>
-	<button @onclick='()=>selectedStyle="User stories"' class="style-select-btn">
+	<button @onclick='()=>HandleClick("User stories")' class="style-select-btn">
 		<img src="/Images/comments.svg" class="@(selectedStyle=="User stories"?"selected":"")" />
 	</button>
 </div>
@@ -43,6 +43,18 @@
 	protected override void OnInitialized()
 	{
 		question = GetTshirtStyle(signalR.Settings.Room);
+	}
+	private void HandleClick(string style)
+	{
+		selectedStyle = style;
+		var room = signalR.Settings.Room;
+		question = selectedStyle switch
+		{
+			"T-shirt" => GetTshirtStyle(room),
+			"Delegation Poker" => GetDelegationPokerStyle(room),
+			"User stories" => GetUserStoriesStyle(room),
+			_ => GetTshirtStyle(room)
+		};
 	}
 
 	private async void SendQuestion()

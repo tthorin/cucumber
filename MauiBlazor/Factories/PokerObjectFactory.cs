@@ -42,7 +42,7 @@ internal static class PokerObjectFactory
 				"21",
 				"50",
 				"100",
-				"url,question-mark",
+				"question-mark",
 				"coffee",
 				"infinity"
 			},
