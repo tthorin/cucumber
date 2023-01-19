@@ -3,6 +3,7 @@
 
 @if (nav == Pages.LeaderSelectMode)
 {
+	<code>Number of clients: @clientsJoined</code>
 	<h3>Room: @signalR.Settings.Room</h3>
 	<div class="button-container">
 		<button @onclick="()=>nav=Pages.LeaderPokerSelectStyle"><img src="/Images/users.svg" />Poker planning</button>
@@ -21,5 +22,9 @@ else if (nav == Pages.LeaderAssessmentStart)
 }
 
 @code {
+	[CascadingParameter]
+	public int clientsJoined { get; set; }
+
 	private Pages nav = Pages.LeaderSelectMode;
+
 }
