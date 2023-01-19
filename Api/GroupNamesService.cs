@@ -1,7 +1,6 @@
-﻿namespace Api
+﻿namespace Api;
+
+public class GroupNamesService : IGroupNamesService
 {
-    public class GroupNamesService : IGroupNamesService
-    {
-        public HashSet<string> GroupNames { get; set; } = new();
-    }
+    public HashSet<string> GroupNames { get; set; } = new();
 }

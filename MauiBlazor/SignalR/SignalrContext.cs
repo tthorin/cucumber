@@ -7,26 +7,35 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using _SharedSignalR.Models.EventModels;
-using Microsoft.Maui.Controls;
 using _SharedSignalR.Enums;
 internal class SignalrContext : ISignalrContext
 {
 	const string URL = "https://localhost:7242/signalr";
 
 	public UserSettings Settings { get; set; } = new();
-	HubConnection connection;
-	public bool Connected { get; private set; }
-	IConfiguration _configuration;
 
+	readonly HubConnection connection;
+	public bool Connected { get; private set; }
+
+	readonly IConfiguration _configuration;
 
 	public SignalrContext(IConfiguration configuration)
 	{
 		_configuration = configuration;
 
+		var cnnStr = GetConnectionString();
 		connection = new HubConnectionBuilder()
-					.WithUrl(_configuration.GetConnectionString("Signalr") ?? URL)
+					.WithUrl(cnnStr ?? URL)
 					.WithAutomaticReconnect()
 					.Build();
+	}
+
+	private string GetConnectionString()
+	{
+		if (DeviceInfo.Platform == DevicePlatform.Android)
+			return _configuration.GetConnectionString("SignalrAndroid");
+		else
+			return _configuration.GetConnectionString("Signalr");
 	}
 
 	public async Task Start()
@@ -44,24 +53,23 @@ internal class SignalrContext : ISignalrContext
 
 	public async Task<bool> GroupNameExists(string groupName)
 	{
-		return await connection.InvokeAsync<bool>("GroupNameExists", groupName);
-    }
+		return Connected && await connection.InvokeAsync<bool>("GroupNameExists", groupName);
+	}
 	public async Task<bool> AddGroupName(string groupName)
 	{
-		return await connection.InvokeAsync<bool>("AddGroupName", groupName);
-    }
+		return Connected && await connection.InvokeAsync<bool>("AddGroupName", groupName);
+	}
 
-    public IDisposable OnPokerQuestion(Action<PokerObject> action) => connection.On<PokerObject>("PokerQuestion", action.Invoke);
+	public IDisposable OnPokerQuestion(Action<PokerObject> action) => connection.On<PokerObject>("PokerQuestion", action.Invoke);
 	public IDisposable OnPokerVote(Action<PokerVote> action) => connection.On<PokerVote>("PokerAnswer", action.Invoke);
 	public IDisposable OnPokerResults(Action<PokerVoteResults> action) => connection.On<PokerVoteResults>("PokerResults", action.Invoke);
 
-    public IDisposable OnJoin(Action<JoinRoomData> action) => connection.On<JoinRoomData>("JoinRoom", action.Invoke);
+	public IDisposable OnJoin(Action<JoinRoomData> action) => connection.On<JoinRoomData>("JoinRoom", action.Invoke);
 
-    public IDisposable OnNavigation(Action<NavigationObject> action) => connection.On<NavigationObject>("Navigation", action.Invoke);
+	public IDisposable OnNavigation(Action<NavigationObject> action) => connection.On<NavigationObject>("Navigation", action.Invoke);
 
 	public async Task SendPokerVote(string vote)
 	{
-
 		var pokerVoteData = new PokerVote
 		{
 			Username = Settings.Username,
@@ -69,7 +77,7 @@ internal class SignalrContext : ISignalrContext
 			RoomName = Settings.Room
 		};
 
-		if(Connected)
+		if (Connected)
 			await connection.SendAsync("PokerVote", pokerVoteData);
 	}
 
