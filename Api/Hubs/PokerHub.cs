@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 
 public class PokerHub : Hub
 {
-	IGroupNamesService _groupNamesService;
+	readonly IGroupNamesService _groupNamesService;
 	public PokerHub(IGroupNamesService groupNamesService)
 	{
 		_groupNamesService = groupNamesService;
@@ -25,7 +25,6 @@ public class PokerHub : Hub
 
 	public async Task PokerQuestion(PokerObject question)
 	{
-		//await Clients.All.SendAsync("Question", question);
 		await Clients.Group(question.Room).SendAsync("PokerQuestion", question);
 	}
 

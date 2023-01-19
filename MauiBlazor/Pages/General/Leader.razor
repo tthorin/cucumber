@@ -12,7 +12,9 @@
 			<button @onclick="CreateRoom">Create Room</button>
 		</div>
 		<div>
-			@errorMessage;
+			<div>
+				<p>@errorMessage</p>
+			</div>
 			@if (signalR.Connected)
 			{
 				<code>Connected</code>
