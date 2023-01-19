@@ -14,7 +14,7 @@
         </div>
     }
     <div>
-        <button @onclick="OnSubmit" type="submit">Go on...</button>
+        <button @onclick="OnSubmit" disabled="@(selectedValue==""?true:false)" type="submit">Go on...</button>
     </div> 
 </fieldset>
 
