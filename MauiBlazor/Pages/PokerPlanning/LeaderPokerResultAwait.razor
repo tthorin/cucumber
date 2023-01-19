@@ -4,7 +4,9 @@
 
 @*-----------------------------------------------------------------------------------------*@
 <button @onclick="()=>PokerNavChanged.InvokeAsync(Pages.LeaderPokerSelectStyle)">Close Vote</button>
+
 <h3>Room: @signalR.Settings.Room</h3>
+<code>Clients: @numberOfClients - Votes recived: @votes.Votes.Count</code>
 <h1>Votes:</h1>
 @if (votes.Votes.Count == 0)
 {
@@ -25,6 +27,8 @@ else
 	public Pages PokerNav { get; set; }
 	[Parameter]
 	public EventCallback<Pages> PokerNavChanged { get; set; }
+	[CascadingParameter]
+	public int numberOfClients { get; set; }
 
 	private PokerVoteResults votes;
 	private List<IDisposable> disposables = new();

@@ -27,7 +27,9 @@
 	}
 	else
 	{
-		<LeaderSelectMode />
+		<CascadingValue Value="numberOfClientsJoined">
+			<LeaderSelectMode />
+		</CascadingValue>
 	}
 </div>
 
@@ -36,6 +38,19 @@
 	private Pages nav = Pages.LeaderCreateRoom;
 	private string roomName = "";
 	private string errorMessage = "";
+	private int numberOfClientsJoined = 0;
+	private List<IDisposable> disposables = new();
+
+	protected override void OnInitialized()
+	{
+		disposables.Add(signalR.OnJoin(OnClientJoined));
+	}
+
+	private async void OnClientJoined(JoinRoomData data)
+	{
+		numberOfClientsJoined++;
+		await InvokeAsync(StateHasChanged);
+	}
 
 	public Leader()
 	{
@@ -63,13 +78,57 @@
 			{
 			"Amazing",
 			"Brave",
-			"Charismatic"
+			"Cute",
+			"Daring",
+			"Eager",
+			"Fast",
+			"Good",
+			"Helpful",
+			"Ignorant",
+			"Jolly",
+			"Kind",
+			"Lazy",
+			"Massive",
+			"Nice",
+			"Odd",
+			"Passive",
+			"Quirky",
+			"Resting",
+			"Somber",
+			"Tall",
+			"Useful",
+			"Vast",
+			"Willing",
+			"Young"
 	};
 		string[] secondWord =
 		{
 			"Anaconda",
 			"Balloon",
-			"Canoe"
+			"Canoe",
+			"Dancer",
+			"Elk",
+			"Frog",
+			"Gorilla",
+			"Helmet",
+			"Idol",
+			"Jungle",
+			"Kingdom",
+			"Llama",
+			"Monster",
+			"Night",
+			"Oyster",
+			"Pelican",
+			"Quiver",
+			"Runner",
+			"Smile",
+			"Tango",
+			"Uniform",
+			"Voice",
+			"Workshop",
+			"Yak",
+			"Zone",
+
 	};
 		roomName = firstWord[random.Next(firstWord.Length)] + " " + secondWord[random.Next(secondWord.Length)];
 

@@ -4,8 +4,8 @@
 @implements IDisposable
 
 <h1>Poker planning</h1>
-<h2>Select style</h2>
-<fieldset>
+<h3>Selected style: @selectedStyle</h3>
+<!--<fieldset>
 	@foreach (var style in styles)
 	{
 		<div class="leader-poker-radio-wrap">
@@ -14,15 +14,21 @@
 		</div>
 	}
 	<div>
-		<button @onclick="SendQuestion" type="submit">Send Question</button>
 	</div>
-</fieldset>
+</fieldset>-->
+<div class="style-select-container">
+	<button @onclick='()=>selectedStyle="T-shirt"' class="style-select-btn">
+		<img src="/Images/shirt.svg" class="@(selectedStyle=="T-shirt"?"selected":"")" />
+	</button>
+	<button @onclick='()=>selectedStyle="Delegation Poker"' class="style-select-btn">
+		<img src="/Images/truck-fast.svg" class="@(selectedStyle=="Delegation Poker"?"selected":"")" />
+	</button>
+	<button @onclick='()=>selectedStyle="User stories"' class="style-select-btn">
+		<img src="/Images/comments.svg" class="@(selectedStyle=="User stories"?"selected":"")" />
+	</button>
+</div>
+		<button @onclick="SendQuestion">Send Question</button>
 
-
-
-<!--start for debug purpose-->
-<code>Selected style: @selectedStyle</code>
-<!--end for debug purpose-->
 @code {
 	[Parameter]
 	public Pages PokerNav { get; set; }
