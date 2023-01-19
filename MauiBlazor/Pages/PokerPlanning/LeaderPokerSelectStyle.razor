@@ -1,14 +1,27 @@
 @using _SharedSignalR.Models;
+@using static Factories.PokerObjectFactory;
 @inject ISignalrContext signalR
 @implements IDisposable
 
-<div>
-	<button @onclick="SendQuestion">Send question</button>
-</div>
+<h1>Poker planning</h1>
+<h2>Select style</h2>
+<fieldset>
+	@foreach (var style in styles)
+	{
+		<div class="leader-poker-radio-wrap">
+			<input @onchange="OnSelectionChanged" checked='@(selectedStyle==style?true:false)' type="radio" id="@style" name="answer" value="@style">
+			<label for="@style">@style</label>
+		</div>
+	}
+	<div>
+		<button @onclick="SendQuestion" type="submit">Send Question</button>
+	</div>
+</fieldset>
+
+
+
 <!--start for debug purpose-->
-<div>
-	<code>Question received: @questionReceived</code>
-</div>
+<code>Selected style: @selectedStyle</code>
 <!--end for debug purpose-->
 @code {
 	[Parameter]
@@ -16,48 +29,33 @@
 	[Parameter]
 	public EventCallback<Pages> PokerNavChanged { get; set; }
 
+	private string selectedStyle = "T-shirt";
+	private List<string> styles = new() { "T-shirt", "Delegation Poker", "User stories" };
 	private PokerObject question;
-	//questionReceived = debug var
-	private bool questionReceived;
 	private List<IDisposable> disposables = new();
 
 	protected override void OnInitialized()
 	{
-		question = new()
-			{
-				Room = signalR.Settings.Room,
-				Title = "T-shirt",
-				Answers = new()
-				{
-					"XXL",
-					"XL",
-					"X",
-					"L",
-					"M",
-					"S",
-					"coffee",
-					"infinity"
-				},
-				Image = "/Images/shirt.svg"
-			};
-
-		//register event listener for debug purpose, to be removed
-		disposables.Add(signalR.OnPokerQuestion(GotQuestion));
+		question = GetTshirtStyle(signalR.Settings.Room);
 	}
-
-	//debug method, to be removed
-	private async void GotQuestion(PokerObject obj)
-	{
-		questionReceived = true;
-		await InvokeAsync(StateHasChanged);
-	}
-
-
 
 	private async void SendQuestion()
 	{
 		await signalR.SendPokerQuestion(question);
 		await PokerNavChanged.InvokeAsync(Pages.LeaderPokerResultAwait);
+	}
+
+	private void OnSelectionChanged(ChangeEventArgs e)
+	{
+		selectedStyle = e.Value.ToString();
+		var room = signalR.Settings.Room;
+		question = selectedStyle switch
+		{
+			"T-shirt" => GetTshirtStyle(room),
+			"Delegation Poker" => GetDelegationPokerStyle(room),
+			"User stories" => GetUserStoriesStyle(room),
+			_ => GetTshirtStyle(room)
+		};
 	}
 
 	public void Dispose()
