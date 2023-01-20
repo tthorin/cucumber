@@ -2,12 +2,13 @@
 @using MauiBlazor.SignalR;
 @using _SharedSignalR.Models;
 
-@if(page == Pages.ClientJoinRoom)
+@if (page == Pages.ClientJoinRoom)
 {
     <JoinRoom OnSubmitted="OnRoomSubmitted" />
     <p>@NameExists</p>
 }
-else if(page == Pages.ClientLobby) {
+else if (page == Pages.ClientLobby)
+{
     <Lobby />
 }
 else
@@ -29,7 +30,7 @@ else
     {
         if (!(await signalr.GroupNameExists(settings.Room)))
         {
-            NameExists = "Group doesn't exist";
+            NameExists = "Room does not exist";
 
             await InvokeAsync(StateHasChanged);
             return false;
