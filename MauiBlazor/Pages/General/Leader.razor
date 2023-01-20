@@ -8,7 +8,7 @@
 	{
 		<h1>@roomName</h1>
 		<div>
-			<button @onclick="GenerateRandomRoomName">Get another name</button>
+			<button disabled="@(roomsInUse is null)" @onclick="GenerateRandomRoomName">@(roomName==""?"Get room name":"Get another name")</button>
 			<button @onclick="CreateRoom">Create Room</button>
 		</div>
 		<div>
@@ -39,11 +39,15 @@
 	private string roomName = "";
 	private string errorMessage = "";
 	private int numberOfClientsJoined = 0;
+	private HashSet<string> roomsInUse;
 	private List<IDisposable> disposables = new();
 
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
 		disposables.Add(signalR.OnJoin(OnClientJoined));
+		disposables.Add(signalR.OnRoomNamesInUse(OnGetRoomNamesInUse));
+		await signalR.Start();
+		await signalR.GetRoomNamesInUse();
 	}
 
 	private async void OnClientJoined(JoinRoomData data)
@@ -52,14 +56,16 @@
 		await InvokeAsync(StateHasChanged);
 	}
 
-	public Leader()
+	private void OnGetRoomNamesInUse(HashSet<string> roomsList)
 	{
+		roomsInUse = roomsList;
 		GenerateRandomRoomName();
+		InvokeAsync(StateHasChanged);
 	}
+
 	private async Task CreateRoom()
 	{
 		signalR.Settings.Room = roomName;
-		await signalR.Start();
 
 		if(!(await signalR.AddGroupName(roomName)))
 		{
@@ -130,8 +136,10 @@
 			"Zone",
 
 	};
-		roomName = firstWord[random.Next(firstWord.Length)] + " " + secondWord[random.Next(secondWord.Length)];
-
+		while(String.IsNullOrEmpty(roomName) || roomsInUse.Contains(roomName))
+		{
+			roomName = firstWord[random.Next(firstWord.Length)] + " " + secondWord[random.Next(secondWord.Length)];
+		}
 	}
 
 

@@ -17,9 +17,11 @@ internal interface ISignalrContext
 	Task SendPokerVoteResult(PokerVoteResults results);
     Task<bool> GroupNameExists(string groupName);
     Task<bool> AddGroupName(string groupName);
+	Task GetRoomNamesInUse();
 	IDisposable OnPokerQuestion(Action<PokerObject> action);
 	IDisposable OnJoin(Action<JoinRoomData> action);
 	IDisposable OnPokerVote(Action<PokerVote> action);
 	IDisposable OnPokerResults(Action<PokerVoteResults> action);
 	IDisposable OnNavigation(Action<NavigationObject> action);
+	IDisposable OnRoomNamesInUse(Action<HashSet<string>> action);
 }

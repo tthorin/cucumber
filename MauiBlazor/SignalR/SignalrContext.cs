@@ -68,6 +68,7 @@ internal class SignalrContext : ISignalrContext
 
 	public IDisposable OnNavigation(Action<NavigationObject> action) => connection.On<NavigationObject>("Navigation", action.Invoke);
 
+	public IDisposable OnRoomNamesInUse(Action<HashSet<string>> action) =>connection.On<HashSet<string>>("RoomNamesInUse",action.Invoke);
 	public async Task SendPokerVote(string vote)
 	{
 		var pokerVoteData = new PokerVote
@@ -112,4 +113,11 @@ internal class SignalrContext : ISignalrContext
 		if (Connected)
 			await connection.SendAsync("PokerResults", results);
 	}
+
+	public async Task GetRoomNamesInUse()
+	{
+		if (Connected)
+			await connection.SendAsync("GetRoomNamesInUse");
+	}
+
 }

@@ -14,6 +14,12 @@ public class PokerHub : Hub
     {
 		return _groupNamesService.GroupNames.Contains(groupName);
     }
+	public async Task GetRoomNamesInUse()
+	{
+		var connectionId = Context.ConnectionId;
+		var roomNamesInUse = _groupNamesService.GroupNames;
+		await Clients.Client(connectionId).SendAsync("RoomNamesInUse", roomNamesInUse);
+	}
     public bool AddGroupName(string groupName)
     {
         return _groupNamesService.GroupNames.Add(groupName);
