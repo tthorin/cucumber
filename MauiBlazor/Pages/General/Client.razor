@@ -30,7 +30,7 @@ else
     {
         if (!(await signalr.GroupNameExists(settings.Room)))
         {
-            NameExists = "Group doesn't exist";
+            NameExists = "Room does not exist";
 
             await InvokeAsync(StateHasChanged);
             return false;

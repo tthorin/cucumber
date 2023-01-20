@@ -1,11 +1,13 @@
 ﻿input[type=text] {
     width: 80%;
+    max-width: 50vw;
     height: 6vh;
     min-height: 50px;
+    margin-bottom: 2vh;
+    border: 0px solid #333333;
     border-radius: 7px;
     box-shadow: 1px 1px hsl(107deg 20% 20% / 0.050) inset, 2px 2px 2px hsl(107deg 20% 20% / 0.052) inset, 3px 3px 6px hsl(107deg 20% 20% / 0.054) inset;
     background-color: hsl(107, 50%, 99%);
-    border: 0px solid #333333;
     font-size: 3vh;
     text-align: center;
 }
@@ -15,15 +17,15 @@ input:active {
 }
 
 button, button:enabled {
-    margin-bottom:20px;
-    max-width: 500px;
+    margin-bottom: 20px;
+    width: 90vw;
+    max-width: 55vw;
     height: 10vh;
     font-size: 4vh;
     background-color: hsl(107, 50%, 72%);
     border-radius: 2px;
     border: none;
     color: #222222;
-    width: 90vw;
     box-shadow: 1px 1px hsl(0deg 0% 0% / 0.050), 0 2px 2px hsl(0deg 0% 0% / 0.052), 0 3px 6px hsl(0deg 0% 0% / 0.054), 0 5px 10px hsl(0deg 0% 0% / 0.056), 0 7px 14px hsl(0deg 0% 0% / 0.058);
     transition: transform linear 0.15s, box-shadow linear 0.15s, background-color linear 0.1s;
 }
@@ -52,10 +54,3 @@ button, button:enabled {
 
         transition: background-color linear 0.1s;
     }
-
-div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%
-}

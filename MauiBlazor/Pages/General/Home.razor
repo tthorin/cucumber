@@ -2,10 +2,12 @@
 
     @if (pageView == Pages.Home)
     {
+        <span></span>
         <div>
-            <h4 @onclick="()=>pageView=Pages.ClientJoinRoom">Join room</h4>
-            <h4 @onclick="()=>pageView=Pages.LeaderCreateRoom">Create room</h4>
+            <button class="join" @onclick="()=>pageView=Pages.ClientJoinRoom">Join room</button>
+            <button class="create" @onclick="()=>pageView=Pages.LeaderCreateRoom">Create room</button>
         </div>
+        <span></span>
     }
     else if (pageView == Pages.ClientJoinRoom)
     {

@@ -60,6 +60,7 @@
       <None Remove="Pages\General\Client.razor.css" />
       <None Remove="Pages\General\Home.razor.css" />
       <None Remove="Pages\General\JoinRoom.razor.css" />
+      <None Remove="Pages\General\Lobby.razor.css" />
       <None Remove="Resources\Images\calendar_week.svg" />
       <None Remove="Resources\Images\infinity.svg" />
       <None Remove="Resources\Images\mug_hot.svg" />
@@ -76,6 +77,7 @@
       <Content Include="Pages\General\Client.razor.css" />
       <Content Include="Pages\General\Home.razor.css" />
       <Content Include="Pages\General\JoinRoom.razor.css" />
+      <Content Include="Pages\General\Lobby.razor.css" />
     </ItemGroup>
 
     <ItemGroup>

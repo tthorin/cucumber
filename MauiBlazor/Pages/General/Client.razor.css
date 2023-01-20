@@ -1,5 +1,6 @@
 ﻿p {
     position:absolute;
+    font-size: 2vh;
     text-shadow: 
         1px 1px hsl(0deg 0% 0% / 0.050),
         0 2px 2px hsl(0deg 0% 0% / 0.052),
