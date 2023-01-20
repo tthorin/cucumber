@@ -1,4 +1,6 @@
-﻿<button @onclick="()=>NavBackChanged.InvokeAsync(Pages.LeaderSelectMode)">Back to mode select</button>
+﻿<div class="back-btn-container">
+	<button @onclick="()=>NavBackChanged.InvokeAsync(Pages.LeaderSelectMode)" class="back-btn">Back to mode select</button>
+</div>
 @if (pokerNav == Pages.LeaderPokerSelectStyle)
 {
 	<LeaderPokerSelectStyle @bind-PokerNav="pokerNav"/>

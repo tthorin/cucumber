@@ -3,7 +3,7 @@
 @implements IDisposable;
 
 @*-----------------------------------------------------------------------------------------*@
-<button @onclick="()=>PokerNavChanged.InvokeAsync(Pages.LeaderPokerSelectStyle)">Close Vote</button>
+<button @onclick="()=>PokerNavChanged.InvokeAsync(Pages.LeaderPokerSelectStyle)" class="close-btn">Close Vote</button>
 
 <h3>Room: @signalR.Settings.Room</h3>
 <code>Clients: @numberOfClients - Votes recived: @votes.Votes.Count</code>
@@ -14,10 +14,23 @@
 }
 else
 {
-	@foreach (var vote in votes.Votes.OrderBy(x => x.Answer))
-	{
-		<p>@vote.Username voted @vote.Answer</p>
-	}
+	<table>
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Vote</td>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var vote in votes.Votes.OrderBy(x => x.Answer))
+			{
+				<tr>
+					<td>@vote.Username</td>
+					<td>@vote.Answer</td>
+				</tr>
+			}
+		</tbody>
+	</table>
 }
 
 
@@ -35,7 +48,7 @@ else
 
 	protected override void OnInitialized()
 	{
-		votes = new() {Room=signalR.Settings.Room};
+		votes = new() { Room = signalR.Settings.Room };
 		disposables.AddRange(new[]
 		{
 			signalR.OnPokerVote(OnPokerVote)
