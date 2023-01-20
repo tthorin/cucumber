@@ -1,27 +1,26 @@
 ﻿@page "/"
 
-
-@if (pageView == Pages.Home)
-{
-	<div>
-		<h4 @onclick="()=>pageView=Pages.ClientJoinRoom">Join room</h4>
-		<h4 @onclick="()=>pageView=Pages.LeaderCreateRoom">Create room</h4>
-	</div>
-}
-else if (pageView == Pages.ClientJoinRoom)
-{
-	<Client />
-}
-else if (pageView == Pages.LeaderCreateRoom)
-{
-	<Leader />
-}
-else
-{
-	<h1>Oops, something went wrong :(</h1>
-}
+    @if (pageView == Pages.Home)
+    {
+        <div>
+            <h4 @onclick="()=>pageView=Pages.ClientJoinRoom">Join room</h4>
+            <h4 @onclick="()=>pageView=Pages.LeaderCreateRoom">Create room</h4>
+        </div>
+    }
+    else if (pageView == Pages.ClientJoinRoom)
+    {
+        <Client />
+    }
+    else if (pageView == Pages.LeaderCreateRoom)
+    {
+        <Leader />
+    }
+    else
+    {
+        <h1>Oops, something went wrong :(</h1>
+    }
 
 
 @code {
-	private Pages pageView = Pages.Home;
+    private Pages pageView = Pages.Home;
 }
