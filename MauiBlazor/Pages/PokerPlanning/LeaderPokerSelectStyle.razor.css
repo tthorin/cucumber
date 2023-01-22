@@ -7,16 +7,22 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     box-sizing: border-box;
+    justify-content:center;
+    justify-items: center;
 }
 
 .selected {
     border: 5px solid red;
 }
 .style-select-btn {
+    flex-grow: 1;
     all: unset;
     cursor: pointer;
     padding: 10px;
+    width: 200px;
+    margin: 1em;
 }
 img{
     padding: 5px;
+    /*max-width: 300px;*/
 }
