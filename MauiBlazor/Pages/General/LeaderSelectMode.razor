@@ -6,9 +6,15 @@
 	<code>Number of clients: @clientsJoined</code>
 	<h3>Room: @signalR.Settings.Room</h3>
 	<div class="button-container">
-		<button @onclick="()=>nav=Pages.LeaderPokerSelectStyle"><img src="/Images/users.svg" />Poker planning</button>
-		<button @onclick="()=>nav=Pages.LeaderAssessmentStart"><img src="/Images/magnifying-glass-chart.svg" />Assessment</button>
+		<button @onclick="()=>HandleSelection(Pages.LeaderPokerSelectStyle)">
+			<img class="@(selected==Pages.LeaderPokerSelectStyle?"selected":"")" src="/Images/users.svg" />
+			Poker</button>
+		<button @onclick="()=>HandleSelection(Pages.LeaderAssessmentStart)"
+			>
+			<img class="@(selected==Pages.LeaderAssessmentStart?"selected":"")" src="/Images/magnifying-glass-chart.svg" />
+			Assessment</button>
 	</div>
+	<button class="styled" @onclick="OnSelect">@buttonText</button>
 }
 else if(nav==Pages.LeaderPokerSelectStyle)
 {
@@ -26,5 +32,20 @@ else if (nav == Pages.LeaderAssessmentStart)
 	public int clientsJoined { get; set; }
 
 	private Pages nav = Pages.LeaderSelectMode;
+	private Pages selected = Pages.LeaderSelectMode;
+	private string buttonText = "Nothing";
+
+	private void HandleSelection(Pages page)
+	{
+		selected = page;
+		buttonText = selected switch
+		{
+			Pages.LeaderPokerSelectStyle => "Poker",
+			Pages.LeaderAssessmentStart => "Assessment",
+			_ => "Nothing"
+		};
+		InvokeAsync(StateHasChanged);
+	}
+	private void OnSelect() => nav = selected;
 
 }

@@ -3,7 +3,6 @@
 @implements IDisposable;
 
 @*-----------------------------------------------------------------------------------------*@
-<button @onclick="()=>PokerNavChanged.InvokeAsync(Pages.LeaderPokerSelectStyle)" class="close-btn">Close Vote</button>
 
 <h3>Room: @signalR.Settings.Room</h3>
 <code>Clients: @numberOfClients - Votes recived: @votes.Votes.Count</code>
@@ -32,6 +31,7 @@ else
 		</tbody>
 	</table>
 }
+<button @onclick="()=>PokerNavChanged.InvokeAsync(Pages.LeaderPokerSelectStyle)" class="close-btn">Close Vote</button>
 
 
 @*-----------------------------------------------------------------------------------------*@
