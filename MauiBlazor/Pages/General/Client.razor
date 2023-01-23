@@ -42,7 +42,7 @@ else
     async void OnRoomSubmitted(UserSettings settings)
     {
         if (!(await SettingsValidation(settings)))
-            //return;
+            return;
 
         signalr.Settings = settings;
         page = Pages.ClientLobby;
