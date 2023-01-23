@@ -54,7 +54,7 @@ internal static class PokerObjectFactory
 		return new()
 		{
 			Room = roomName,
-			Title = "User stories",
+			Title = "Delegation Poker",
 			Answers = new()
 			{
 				"Tell",

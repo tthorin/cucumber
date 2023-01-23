@@ -5,12 +5,14 @@
 @*-----------------------------------------------------------------------------------------*@
 
 <div class="leader-vote-wait-container">
-	<h3>Room: @signalR.Settings.Room</h3>
+	<div class="room-name">
+		<p>Votes received @votes.Votes.Count / @numberOfClients</p>
+		<p>Room: @signalR.Settings.Room</p>
+	</div>
 	<div class="vote-progress-container">
-		<label for="vote-progess">Votes received @votes.Votes.Count / @numberOfClients</label>
 		<progress id="vote-progress" max="100" value="@votePercent">@votePercent %</progress>
 	</div>
-	<h1>Votes:</h1>
+	<h1>Votes</h1>
 	@if (votes.Votes.Count == 0)
 	{
 		<p>Waiting for votes...</p>
