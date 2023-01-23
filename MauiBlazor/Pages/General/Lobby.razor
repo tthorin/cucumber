@@ -57,13 +57,6 @@
         await signalr.Start();
 
         await signalr.JoinRoom();
-
-
-        //Temp for Css styling
-        question = GetUserStoriesStyle("");
-
-        page = Pages.ClientPokerVoteView;
-        await InvokeAsync(StateHasChanged);
     }
 
     public async void OnJoin(JoinRoomData roomData)
