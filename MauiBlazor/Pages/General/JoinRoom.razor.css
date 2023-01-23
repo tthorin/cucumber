@@ -1,4 +1,12 @@
-﻿input[type=text] {
+﻿.joinroom-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 65vw;
+    padding: 5vh;
+}
+
+input[type=text] {
     width: 80%;
     max-width: 50vw;
     height: 6vh;
@@ -22,11 +30,16 @@ button, button:enabled {
     max-width: 55vw;
     height: 10vh;
     font-size: 4vh;
-    background-color: hsl(107, 50%, 72%);
+    background-color: #199F63;
     border-radius: 2px;
     border: none;
     color: #222222;
-    box-shadow: 1px 1px hsl(0deg 0% 0% / 0.050), 0 2px 2px hsl(0deg 0% 0% / 0.052), 0 3px 6px hsl(0deg 0% 0% / 0.054), 0 5px 10px hsl(0deg 0% 0% / 0.056), 0 7px 14px hsl(0deg 0% 0% / 0.058);
+    box-shadow:
+        1px 1px hsl(0deg 0% 0% / 0.050),
+        0 2px 2px hsl(0deg 0% 0% / 0.052),
+        0 3px 6px hsl(0deg 0% 0% / 0.054),
+        0 5px 10px hsl(0deg 0% 0% / 0.056),
+        0 7px 14px hsl(0deg 0% 0% / 0.058);
     transition: transform linear 0.15s, box-shadow linear 0.15s, background-color linear 0.1s;
 }
 

@@ -1,0 +1,78 @@
+﻿button, button:enabled {
+    margin-bottom: 20px;
+    width: 90vw;
+    max-width: 55vw;
+    height: 10vh;
+    font-size: 4vh;
+    background-color: #199F63;
+    border-radius: 2px;
+    border: none;
+    color: #222222;
+    box-shadow: 1px 1px hsl(0deg 0% 0% / 0.050), 0 2px 2px hsl(0deg 0% 0% / 0.052), 0 3px 6px hsl(0deg 0% 0% / 0.054), 0 5px 10px hsl(0deg 0% 0% / 0.056), 0 7px 14px hsl(0deg 0% 0% / 0.058);
+    transition: transform linear 0.15s, box-shadow linear 0.15s, background-color linear 0.1s;
+}
+
+    button:enabled:hover {
+        transform: scale(1.05);
+        box-shadow: 0 2px 4px hsl(0deg 0% 0% / 0.044), 0 4px 8px hsl(0deg 0% 0% / 0.046), 0 6px 12px hsl(0deg 0% 0% / 0.048), 0 8px 16px hsl(0deg 0% 0% / 0.050), 0 10px 20px hsl(0deg 0% 0% / 0.052);
+        transition: transform linear 0.1s, box-shadow linear 0.1s, background-color linear 0.1s;
+    }
+
+    button:disabled {
+        background-color: #ececec;
+        transition: background-color linear 0.1s;
+    }
+
+        button:disabled:hover {
+            background-color: #ececec;
+            transform: scale(1.0);
+            transition: background-color linear 0.1s;
+        }
+
+img {
+    width:70%;
+    height:70%;
+}
+
+h2 {
+    font-size: 3vh;
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.header-img-container{
+    border-bottom:500px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,17 +9,27 @@
 }
 
 .spin::before {
-    animation: 1.5s linear infinite spinner;
+    --size: 30vh;
+    animation: 1.5s ease-in-out infinite spinner;
     animation-play-state: inherit;
-    border: solid 5px #cfd0d1;
-    border-bottom-color: #1c87c9;
+    border: solid 1px #cfd0d1;
+    border-bottom-color: #199F63;
     border-radius: 50%;
     content: "";
-    height: 40px;
-    width: 40px;
-    position: absolute;
-    top: 10%;
-    left: 10%;
+    height: var(--size);
+    width: var(--size);
     transform: translate3d(-50%, -50%, 0);
     will-change: transform;
+    position: absolute;
+}
+
+.lobby-container 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 65vw;
+    height: 100%;
+    padding: 5vh;
 }

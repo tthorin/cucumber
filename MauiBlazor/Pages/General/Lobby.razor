@@ -1,37 +1,43 @@
 ﻿@using MauiBlazor.Pages.PokerPlanning
 @using MauiBlazor.SignalR;
 @using _SharedSignalR.Models;
+@using static Factories.PokerObjectFactory;
 @inject ISignalrContext signalr;
 @implements IDisposable;
 
-@if(page == Pages.ClientLobby)
-{
-    <h3>Waiting for leader to do something...</h3>
+<div class="lobby-container">
+    @if(page == Pages.ClientLobby)
+    {
+        <h3>Waiting for leader to do something...</h3>
 
-    @foreach(var message in messages)
-    {
-        <p>@message</p>
-    }
+        <div class="spin" ></div>
+        <div>
+            @foreach(var message in messages)
+            {
+                <p>@message</p>
+            }
 
-    @if(signalr.Connected)
-    {
-        <p>Connected</p>
+            @if(signalr.Connected)
+            {
+                <p>Connected</p>
+            }
+            else
+            {
+                <p>Not connected</p>
+            }
+        </div>
     }
-    else
+    else if (page == Pages.ClientPokerVoteView)
     {
-        <p>Not connected</p>
+        <CascadingValue Value="this">
+            <ClientVoteView Question="@question" />
+        </CascadingValue>
     }
-}
-else if (page == Pages.ClientPokerVoteView)
-{
-    <CascadingValue Value="this">
-        <ClientVoteView Question="@question" />
-    </CascadingValue>
-}
-else if (page == Pages.ClientPokerResultsView)
-{
-    <ClientResultsView Results="@pokerVoteResults" />
-}
+    else if (page == Pages.ClientPokerResultsView)
+    {
+        <ClientResultsView Results="@pokerVoteResults" />
+    }
+</div>
 
 @code {
     List<IDisposable> disposables = new();
@@ -51,6 +57,13 @@ else if (page == Pages.ClientPokerResultsView)
         await signalr.Start();
 
         await signalr.JoinRoom();
+
+
+        //Temp for Css styling
+        question = GetUserStoriesStyle("");
+
+        page = Pages.ClientPokerVoteView;
+        await InvokeAsync(StateHasChanged);
     }
 
     public async void OnJoin(JoinRoomData roomData)

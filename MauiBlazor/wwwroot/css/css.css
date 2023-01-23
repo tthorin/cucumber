@@ -1,12 +1,12 @@
 ﻿:root {
   --main-bg: #f0f0f0;
-  --header-bg: #88af7c;
+    --header-bg:#199F63;
   --backarrow-size: 5vh;
   --hamburger-size: 4.5vh;
   --button-green: hsl(107, 50%, 72%);
 }
-
-html{
+body {
+    color: #000;
     background-color: var(--main-bg);
     overflow: hidden;
 }
@@ -91,6 +91,8 @@ html{
   font-family: Segoe UI;
   color: #292525;
 }
+
+
 
 .app-container .main {
   width: 100%;

@@ -2,22 +2,23 @@
 @using MauiBlazor.SignalR;
 @using _SharedSignalR.Models;
 @inject ISignalrContext signalr;
+<div class="checkbox-container">
+    <div class="header-img-container">
+        <h2>@Question.Title</h2>
+        <img src="@Question.Image" />
+    </div>
 
-<fieldset>
-    <h2>@Question.Title</h2>
-    <img src="@Question.Image" />
-    @foreach(var alternative in Question.Answers)
-    {
-        <div>
-            <input @onchange="SelectionChanged" type="radio" id="@alternative" name="answer" value="@alternative">
-            <label for="@alternative">@alternative</label>
-        </div>
-    }
+        @foreach(var alternative in Question.Answers)
+        {
+            <p>
+                <input @onchange="SelectionChanged" type="radio" id="@alternative" name="answer" value="@alternative">
+                <label for="@alternative">@alternative</label>
+            </p>
+        }
+    </div>
     <div>
-        <button @onclick="OnSubmit" disabled="@(selectedValue==""?true:false)" type="submit">Go on...</button>
-    </div> 
-</fieldset>
-
+        <button @onclick="OnSubmit" disabled="@(selectedValue=="")" type="submit">Next</button>
+    </div>
 @code {
     [Parameter]
     public PokerObject Question{ get; set; }
