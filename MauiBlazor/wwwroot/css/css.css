@@ -1,221 +1,187 @@
 ﻿:root {
-    --main-bg: #f0f0f0;
-    --header-bg: #88af7c;
-    --backarrow-size: 5vh;
-    --hamburger-size: 4.5vh;
-    --button-green: hsl(107, 50%, 72%);
+  --main-bg: #f0f0f0;
+  --header-bg: #88af7c;
+  --backarrow-size: 5vh;
+  --hamburger-size: 4.5vh;
+  --button-green: hsl(107, 50%, 72%);
 }
+
+html{
+    background-color: var(--main-bg);
+    overflow: hidden;
+}
+
+
 
 .app-container {
-    background-color: var(--main-bg);
+  width: 100%;
+  height: 99vh;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.app-container {
-    width: 100%;
-    height: 99vh;
-    padding-bottom: 30px;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--main-bg);
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
+.app-container .header {
+  background-color: var(--header-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 30px;
+  height: 9vh;
+  width: 100%;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.05),
+    0 2px 2px hsl(0deg 0% 0% / 0.052), 0 3px 6px hsl(0deg 0% 0% / 0.054),
+    0 5px 10px hsl(0deg 0% 0% / 0.056), 0 7px 14px hsl(0deg 0% 0% / 0.058);
 }
 
-    .app-container .header {
-        background-color: var(--header-bg);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        min-height: 30px;
-        height: 9vh;
-        width: 100%;
-        margin-bottom: 20px;
-        box-shadow:
-            0 1px 1px hsl(0deg 0% 0% / 0.050),
-            0 2px 2px hsl(0deg 0% 0% / 0.052),
-            0 3px 6px hsl(0deg 0% 0% / 0.054),
-            0 5px 10px hsl(0deg 0% 0% / 0.056),
-            0 7px 14px hsl(0deg 0% 0% / 0.058)
-    }
+.app-container .header .header-item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
 
-        .app-container .header .header-item {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            margin-left: 10px
-        }
+.app-container .header .item1 {
+  flex-grow: 1;
+  height: 100%;
+}
 
-        .app-container .header .item1 {
-            flex-grow: 1;
-            height: 100%;
-        }
+.app-container .header .item1 img {
+  width: var(--backarrow-size);
+  height: var(--backarrow-size);
+  opacity: 0.8;
+}
 
-            .app-container .header .item1 img {
-                width: var(--backarrow-size);
-                height: var(--backarrow-size);
-                opacity: 0.8;
-            }
+.app-container .header .item1 img:hover {
+  opacity: 0.9;
+}
 
-                .app-container .header .item1 img:hover {
-                    opacity: 0.9;
-                }
+.app-container .header .item2 {
+  flex-grow: 1;
+  height: 100%;
+}
 
+.app-container .header .item2 img {
+  width: var(--hamburger-size);
+  height: var(--hamburger-size);
+  margin-left: auto;
+  margin-right: 20px;
+  opacity: 0.7;
+}
 
-        .app-container .header .item2 {
-            flex-grow: 1;
-            height: 100%;
-        }
+.app-container .header .item2 img:hover {
+  opacity: 0.8;
+}
 
-            .app-container .header .item2 img {
-                width: var(--hamburger-size);
-                height: var(--hamburger-size);
-                margin-left: auto;
-                margin-right: 20px;
-                opacity: 0.7;
-            }
+.app-container .header .appname {
+  height: 100%;
+  vertical-align: middle;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 3vh;
+  font-weight: bold;
+  font-family: Segoe UI;
+  color: #292525;
+}
 
-                .app-container .header .item2 img:hover {
-                    opacity: 0.8;
-                }
+.app-container .main {
+  width: 100%;
+  overflow: hidden;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
 
-        .app-container .header .appname {
-            height: 100%;
-            vertical-align: middle;
-            margin: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-size: 3vh;
-            font-weight: bold;
-            font-family: Segoe UI;
-            color: #292525;
-        }
-
-    .app-container .main {
-        width: 100%;
-        overflow-y: auto;
-        background-color: var(--main-bg);
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-    }
-
-    .app-container .footer {
-        width: 100%;
-        min-height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        background-color: var(--main-bg);
-    }
+.app-container .footer {
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
 
 button {
-    max-width: 500px;
-    height: 10vh;
-    font-size: 4vh;
-    background-color: #666666;
-    border: 1px solid #000;
-    border-radius: 5px;
-    color: #f0f0f0;
+  max-width: 500px;
+  height: 10vh;
+  font-size: 4vh;
+  background-color: #666666;
+  border: 1px solid #000;
+  border-radius: 5px;
+  color: #f0f0f0;
 }
 
+button.small {
+  width: 40vw;
+  height: 8vh;
+}
 
-    button.small {
-        width: 40vw;
-        height: 8vh;
-    }
+button.small-green {
+  width: 40vw;
+  background-color: rgb(81, 156, 81);
+  height: 9vh;
+  min-height: 60px;
+}
 
-    button.small-green {
-        width: 40vw;
-        background-color: rgb(81, 156, 81);
-        height: 9vh;
-        min-height: 60px;
-    }
-
-    button.small-red {
-        width: 40vw;
-        background-color: rgb(211, 66, 66);
-        height: 9vh;
-        min-height: 60px;
-    }
+button.small-red {
+  width: 40vw;
+  background-color: rgb(211, 66, 66);
+  height: 9vh;
+  min-height: 60px;
+}
 
 button.choice-button {
-    height: 60px;
-    width: 90vw;
-    border-radius: 10px;
-    background-color: #888888;
+  height: 60px;
+  width: 90vw;
+  border-radius: 10px;
+  background-color: #888888;
 }
 
-.main div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%
+button.styled,
+button.styled:enabled {
+  margin-bottom: 20px;
+  width: 90vw;
+  max-width: 55vw;
+  height: 10vh;
+  font-size: 4vh;
+  background-color: hsl(107, 50%, 72%);
+  border-radius: 2px;
+  border: none;
+  color: #222222;
+  box-shadow: 1px 1px hsl(0deg 0% 0% / 0.05), 0 2px 2px hsl(0deg 0% 0% / 0.052),
+    0 3px 6px hsl(0deg 0% 0% / 0.054), 0 5px 10px hsl(0deg 0% 0% / 0.056),
+    0 7px 14px hsl(0deg 0% 0% / 0.058);
+  transition: transform linear 0.15s, box-shadow linear 0.15s,
+    background-color linear 0.1s;
 }
 
-.main a {
-    font-size: 24pt;
-    color: #222327;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.main span {
-    color: #222327;
-    font-size: 24pt;
-}
-
-.main h2 {
-    text-align: left;
-    color: #222327
-}
-
-.main table {
-    text-align: left;
-    color: #222327;
-}
-
-.main td {
-    width: 20%;
-}
-
-.main textarea {
-    height: 100px;
-    text-align: left;
-    font-size: 18pt;
-}
-button.styled, button.styled:enabled {
-    margin-bottom: 20px;
-    width: 90vw;
-    max-width: 55vw;
-    height: 10vh;
-    font-size: 4vh;
-    background-color: hsl(107, 50%, 72%);
-    border-radius: 2px;
-    border: none;
-    color: #222222;
-    box-shadow: 1px 1px hsl(0deg 0% 0% / 0.050), 0 2px 2px hsl(0deg 0% 0% / 0.052), 0 3px 6px hsl(0deg 0% 0% / 0.054), 0 5px 10px hsl(0deg 0% 0% / 0.056), 0 7px 14px hsl(0deg 0% 0% / 0.058);
-    transition: transform linear 0.15s, box-shadow linear 0.15s, background-color linear 0.1s;
-}
-
-button.styled:enabled:hover, button.styled:enabled:active {
-	transform: scale(1.05);
-	box-shadow: 0 2px 4px hsl(0deg 0% 0% / 0.044), 0 4px 8px hsl(0deg 0% 0% / 0.046), 0 6px 12px hsl(0deg 0% 0% / 0.048), 0 8px 16px hsl(0deg 0% 0% / 0.050), 0 10px 20px hsl(0deg 0% 0% / 0.052);
-	transition: transform linear 0.1s, box-shadow linear 0.1s, background-color linear 0.1s;
+button.styled:enabled:hover,
+button.styled:enabled:active {
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px hsl(0deg 0% 0% / 0.044),
+    0 4px 8px hsl(0deg 0% 0% / 0.046), 0 6px 12px hsl(0deg 0% 0% / 0.048),
+    0 8px 16px hsl(0deg 0% 0% / 0.05), 0 10px 20px hsl(0deg 0% 0% / 0.052);
+  transition: transform linear 0.1s, box-shadow linear 0.1s,
+    background-color linear 0.1s;
 }
 
 button.styled:disabled {
-	background-color: #ececec;
-	transition: background-color linear 0.1s;
+  background-color: #ececec;
+  transition: background-color linear 0.1s;
 }
 
 button.styled:disabled:hover {
-	background-color: #ececec;
-	transform: scale(1.0);
-	transition: background-color linear 0.1s;
+  background-color: #ececec;
+  transform: scale(1);
+  transition: background-color linear 0.1s;
 }

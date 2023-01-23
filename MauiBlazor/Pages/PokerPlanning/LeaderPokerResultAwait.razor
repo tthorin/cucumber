@@ -4,34 +4,39 @@
 
 @*-----------------------------------------------------------------------------------------*@
 
-<h3>Room: @signalR.Settings.Room</h3>
-<code>Clients: @numberOfClients - Votes recived: @votes.Votes.Count</code>
-<h1>Votes:</h1>
-@if (votes.Votes.Count == 0)
-{
-	<p>Waiting for votes...</p>
-}
-else
-{
-	<table>
-		<thead>
-			<tr>
-				<td>Name</td>
-				<td>Vote</td>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var vote in votes.Votes.OrderBy(x => x.Answer))
-			{
+<div class="leader-vote-wait-container">
+	<h3>Room: @signalR.Settings.Room</h3>
+	<div class="vote-progress-container">
+		<label for="vote-progess">Votes received @votes.Votes.Count / @numberOfClients</label>
+		<progress id="vote-progress" max="100" value="@votePercent">@votePercent %</progress>
+	</div>
+	<h1>Votes:</h1>
+	@if (votes.Votes.Count == 0)
+	{
+		<p>Waiting for votes...</p>
+	}
+	else
+	{
+		<table>
+			<thead>
 				<tr>
-					<td>@vote.Username</td>
-					<td>@vote.Answer</td>
+					<td>Name</td>
+					<td>Vote</td>
 				</tr>
-			}
-		</tbody>
-	</table>
-}
-<button @onclick="()=>PokerNavChanged.InvokeAsync(Pages.LeaderPokerSelectStyle)" class="close-btn">Close Vote</button>
+			</thead>
+			<tbody>
+				@foreach (var vote in votes.Votes.OrderBy(x => x.Answer))
+				{
+					<tr>
+						<td>@vote.Username</td>
+						<td>@vote.Answer</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	}
+<button @onclick="()=>PokerNavChanged.InvokeAsync(Pages.LeaderPokerSelectStyle)" class="styled close-btn">Close Vote</button>
+</div>
 
 
 @*-----------------------------------------------------------------------------------------*@
@@ -45,6 +50,7 @@ else
 
 	private PokerVoteResults votes;
 	private List<IDisposable> disposables = new();
+	private int votePercent;
 
 	protected override void OnInitialized()
 	{
@@ -58,7 +64,10 @@ else
 	private async void OnPokerVote(PokerVote vote)
 	{
 		votes.Votes.Add(vote);
+
 		await signalR.SendPokerVoteResult(votes);
+
+		votePercent = votes.Votes.Count * 100 / numberOfClients;
 		await InvokeAsync(StateHasChanged);
 	}
 
