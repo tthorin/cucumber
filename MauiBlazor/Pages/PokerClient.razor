@@ -1,0 +1,145 @@
+﻿@page "/joinroom"
+@using Microsoft.AspNetCore.SignalR.Client;
+@using MauiBlazor.Components.Poker.FibonacciStyle;
+@using _SharedSignalR.PokerData;
+@inject NavigationManager NavManager;
+@implements IAsyncDisposable;
+
+<div class="app-container">
+	<div class="header">
+		<a href="index.html">
+			<img src="arrow-back.png" class="header-item item1" />
+		</a>
+		<div class="header-item item2">
+		</div>
+		<div class="header-item appname">
+			5 Dimensions of Agile
+		</div>
+	</div>
+	<div class="main">
+		<div>
+			@if(page==0)
+			{
+			<input @bind="_settings.UserName" placeholder="Your name" />
+			}	
+			@if(page==1)
+			{
+				<input @bind="_settings.Room" placeholder="Room name" />
+				@if (_invite is not null)
+				{
+					<button @onclick="()=>_settings.Room = _invite.Room" class="btn btn-primary">Join @_invite.Room</button>
+				}
+			}
+				
+		</div>
+		<div></div>
+		<div></div>
+		<div>
+			@if (page == 0)
+			{
+				<a @onclick="() => page++">Next</a>
+			}	
+			@if (page == 1)
+			{
+				<a @onclick="RoomSubmit">Join</a>
+			}	
+			@if (page == 2)
+			{
+				<div>
+                <span>@(messages.LastOrDefault()?.Question ?? "Waiting...")</span>
+                <br />
+                <span>Answer: </span>
+
+				<FibonacciSelectCard OnSelectedValue="(value) => Send(value)" />
+
+				</div>
+				<div></div>
+				<div></div>
+				<div></div>
+			}
+			@if (page == 3)
+			{
+				<span>You voted: @voteStr</span>
+			}
+		</div>
+	</div>
+	<div class="footer">
+		<div class="header-item elicit">
+			Elicit
+		</div>
+		<div class="header-item item2"></div>
+		<div class="header-item item1">
+		</div>
+	</div>
+</div>
+
+
+@code {
+	HubConnection hubConnection;
+	List<PokerQuestionData> messages = new();
+	//string messageInput = "";
+	private string _room = "";
+	private bool roomJoined;
+	private int page = 0;
+	private PokerInvite _invite;
+	private PokerDTO _settings = new();
+	private string voteStr = "";
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		hubConnection = new HubConnectionBuilder()
+			.WithUrl(/*NavManager.ToAbsoluteUri("/signalr")*/"https://localhost:7242/signalr")
+
+			.WithAutomaticReconnect()
+			.Build();
+
+		hubConnection.On<PokerQuestionData>("Question", (question) =>
+		{
+			page = 2;
+			messages.Add(question);
+			InvokeAsync(StateHasChanged);
+		});
+
+		hubConnection.On<PokerInvite>("RoomInvite", (invite) =>
+		{
+			_invite = invite;
+			InvokeAsync(StateHasChanged);
+		});
+
+		await hubConnection.StartAsync();
+
+		await base.OnInitializedAsync();
+	}
+
+	private async Task Send(string vote)
+	{
+		voteStr = vote;
+		if (hubConnection is not null)
+		{
+			var voteObj = new PokerVoteData
+				{
+					UserName = _settings.UserName,
+					Value = vote,
+					RoomName = _room
+				};
+			await hubConnection.SendAsync("Vote", voteObj);
+		}
+		page++;
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (hubConnection is not null)
+		{
+			await hubConnection.DisposeAsync();
+		}
+	}
+	private async Task RoomSubmit()
+	{
+		_room = _settings.Room;
+		roomJoined = true;
+		page++;
+		await hubConnection.SendAsync("JoinRoom", _settings);
+	}
+}

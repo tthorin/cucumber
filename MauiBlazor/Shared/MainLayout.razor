@@ -1,23 +1,32 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavManager;
 
-<div class="page">
-
-    <main>
-        <div class="app-container">
-            <div class="header">
-                <div class="header-item item1">
-                    <img src="arrow-back.png" />
-                </div>
-                <div class="header-item appname">
-                    Agile Toolbox
-                </div>
-                <div class="header-item item2">
-                    <img src="bars-solid.svg" />
-                </div>
-            </div>
-            <div class="main">
-                @Body
-            </div>
+<div class="app-container">
+    <div class="header">
+        <img src="arrow-back.png" class="header-item item1" @onclick="NavigateHome"/>
+        <div class="header-item item2">
         </div>
-    </main>
+        <div class="header-item appname">
+            5 Dimensions of Agile
+        </div>
+    </div>
+    <div class="main">
+        @Body
+    </div>
+    <div class="footer">
+        <div class="header-item elicit">
+            Elicit
+        </div>
+        <div class="header-item item2"></div>
+        <div class="header-item item1">
+        </div>
+    </div>
 </div>
+
+
+@code {
+    private void NavigateHome()
+    {
+		NavManager.NavigateTo("/");
+    }
+}

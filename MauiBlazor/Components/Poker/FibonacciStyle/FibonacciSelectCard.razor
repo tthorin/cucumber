@@ -1,13 +1,11 @@
-﻿@foreach(string answer in Answers)
+﻿@foreach(string number in fibNumbers)
 {
-    <button @onclick="()=>SelectedValue(answer)">@answer</button>
+    <button @onclick="()=>SelectedValue(number)">@number</button>
 }
 
 @code {
     [Parameter]
     public EventCallback<string> OnSelectedValue { get; set; }
-    [Parameter]
-    public IEnumerable<string> Answers{ get; set; }
 
     private string[] fibNumbers= new[] {"1","2","3","5","8","13"};
 

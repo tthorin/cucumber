@@ -1,0 +1,71 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.SignalR.Client;
+@inject NavigationManager NavManager;
+@implements IAsyncDisposable;
+
+
+<div>
+	<div><a href="/joinroom">Join room</a></div>
+	<div><a href="/createroom">Create room</a></div>
+	@if (failedToConnect) 
+	{
+		<code>Failed to connect to SignalR hub.</code>
+		<p>@(hubConnection is null)</p>
+	}
+</div>
+
+
+@code {
+	HubConnection hubConnection;
+	List<string> messages = new();
+	string messageInput = "";
+	private bool failedToConnect;
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		await ConnectToHub();
+		await base.OnInitializedAsync();
+	}
+	private async Task ConnectToHub()
+	{
+		hubConnection = new HubConnectionBuilder()
+			.WithUrl("https://localhost:7242/signalr")
+
+			.WithAutomaticReconnect()
+			.Build();
+
+		hubConnection.On<string>("ReceiveMessage", (msg) =>
+		{
+			messages.Add(msg);
+			InvokeAsync(StateHasChanged);
+		});
+
+		try
+		{
+			await hubConnection.StartAsync();
+		}
+		catch
+		{
+			failedToConnect = true;
+		}
+	}
+
+
+	private async Task Send()
+	{
+		if (hubConnection is not null)
+		{
+			await hubConnection.SendAsync("SendMessageToUsers", messageInput);
+			messageInput = "";
+		}
+	}
+
+	public async ValueTask DisposeAsync()
+	{
+		if (hubConnection is not null)
+		{
+			await hubConnection.DisposeAsync();
+		}
+	}
+}
