@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using MauiBlazor.SignalR;
 
 namespace MauiBlazor;
 
@@ -8,10 +6,6 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-		IConfiguration configuration = new ConfigurationBuilder()
-							.AddJsonFile("appsettings.json")
-							.Build();
-
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
@@ -21,7 +15,7 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddMauiBlazorWebView();
-		builder.Services.AddSingleton<ISignalrContext>(new SignalrContext(configuration));
+
 #if DEBUG
 		builder.Services.AddBlazorWebViewDeveloperTools();
 		builder.Logging.AddDebug();

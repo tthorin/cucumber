@@ -1,3 +1,4 @@
+using Api;
 using Api.Hubs;
 using Microsoft.AspNetCore.ResponseCompression;
 
@@ -14,6 +15,7 @@ builder.Services.AddResponseCompression(opts =>
     opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
         new[] { "application/octet-stream" });
 });
+builder.Services.AddSingleton<IGroupNamesService, GroupNamesService>();
 
 var app = builder.Build();
 

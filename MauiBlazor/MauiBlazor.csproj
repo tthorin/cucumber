@@ -58,13 +58,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\Common\" />
       <Folder Include="Data\" />
-      <Folder Include="Pages\PokerPlanning\" />
     </ItemGroup>
 
     <Import Project="..\_SharedSignalR\_SharedSignalR.projitems" Label="Shared" />
-
-    <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="{" /></VisualStudio></ProjectExtensions>
 
 </Project>

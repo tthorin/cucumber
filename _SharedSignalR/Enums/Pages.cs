@@ -1,23 +1,25 @@
-﻿namespace _SharedSignalR.Enums
+﻿namespace _SharedSignalR.Enums;
+
+ public enum Pages
 {
-	enum Pages
-	{
-		Home,
-		
-		//Leader
-		LeaderCreateRoom,
-		LeaderSelectMode,
+	Home,
 
-		//Leader Poker
-		LeaderSelectPokerStyle,
-		LeaderPokerResultView,
+	//Leader
+	LeaderCreateRoom,
+	LeaderSelectMode,
 
-		//Client
-		ClientJoinRoom,
-		ClientLobby,
+	//Leader Poker
+	LeaderPokerSelectStyle,
+	LeaderPokerResultView,
+	LeaderPokerResultAwait,
 
-		//Client Poker
-		ClientPokerVoteView,
-		ClientPokerResultsView
-	}
+	//Leader Assessment
+	LeaderAssessmentStart,
+	//Client
+	ClientJoinRoom,
+	ClientLobby,
+
+	//Client Poker
+	ClientPokerVoteView,
+	ClientPokerResultsView
 }

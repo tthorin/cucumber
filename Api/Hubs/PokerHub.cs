@@ -5,32 +5,49 @@ using Microsoft.AspNetCore.SignalR;
 
 public class PokerHub : Hub
 {
-	public async Task SendMessageToUsers(string message)
+	readonly IGroupNamesService _groupNamesService;
+	public PokerHub(IGroupNamesService groupNamesService)
+	{
+		_groupNamesService = groupNamesService;
+	}
+    public bool GroupNameExists(string groupName)
+    {
+		return _groupNamesService.GroupNames.Contains(groupName);
+    }
+	public async Task GetRoomNamesInUse()
+	{
+		var connectionId = Context.ConnectionId;
+		var roomNamesInUse = _groupNamesService.GroupNames;
+		await Clients.Client(connectionId).SendAsync("RoomNamesInUse", roomNamesInUse);
+	}
+    public bool AddGroupName(string groupName)
+    {
+        return _groupNamesService.GroupNames.Add(groupName);
+    }
+    public async Task SendMessageToUsers(string message)
 	{
 		await Clients.All.SendAsync("ReceiveMessage", message);
 	}
 
-	public async Task Question(PokerObject question)
+	public async Task PokerQuestion(PokerObject question)
 	{
-		//await Clients.All.SendAsync("Question", question);
-		await Clients.Group(question.RoomName).SendAsync("Question", question);
+		await Clients.Group(question.Room).SendAsync("PokerQuestion", question);
 	}
 
-	public async Task Vote(PokerVote vote)
+	public async Task PokerVote(PokerVote vote)
 	{
-		//await Clients.All.SendAsync("Vote", vote);
 		string[] exluded = { $"{Context.ConnectionId}" };
-		await Clients.GroupExcept(vote.RoomName,exluded).SendAsync("Vote", vote);
+		await Clients.GroupExcept(vote.RoomName,exluded).SendAsync("PokerAnswer", vote);
 	}
 
-	public async Task JoinRoom(PokerClientSettings settings)
+	public async Task JoinRoom(JoinRoomData settings)
 	{
-		var id = Context.ConnectionId;
-		await Groups.AddToGroupAsync(id, settings.Room);
-		//await Vote(new PokerVoteData() { Value = $"{settings.UserName} has joined the room", RoomName = settings.Room });
-	}
-	public async Task RoomInvite(PokerInvite invite)
+        var id = Context.ConnectionId;
+		await Groups.AddToGroupAsync(id, settings.User.Room);
+        await Clients.GroupExcept(settings.User.Room, id).SendAsync("JoinRoom", settings);
+    }
+	public async Task PokerResults(PokerVoteResults results)
 	{
-		await Clients.All.SendAsync("RoomInvite", invite);
+		await Clients.Group(results.Room).SendAsync("PokerResults", results);
 	}
 }
