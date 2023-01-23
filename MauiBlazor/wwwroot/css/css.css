@@ -1,13 +1,13 @@
 ﻿:root {
     --main-bg: #f0f0f0;
-    --header-bg: #88af7c;
+    --header-bg:#199F63;
     --backarrow-size: 5vh;
     --hamburger-size: 4.5vh;
     --button-green: hsl(107, 50%, 72%);
 }
 
-.app-container {
-    background-color: var(--main-bg);
+body {
+    color: #000;
 }
 
 .app-container {
@@ -92,6 +92,8 @@
             color: #292525;
         }
 
+
+
     .app-container .main {
         width: 100%;
         overflow-y: auto;
@@ -147,43 +149,4 @@ button.choice-button {
     width: 90vw;
     border-radius: 10px;
     background-color: #888888;
-}
-
-.main div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%
-}
-
-.main a {
-    font-size: 24pt;
-    color: #222327;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.main span {
-    color: #222327;
-    font-size: 24pt;
-}
-
-.main h2 {
-    text-align: left;
-    color: #222327
-}
-
-.main table {
-    text-align: left;
-    color: #222327;
-}
-
-.main td {
-    width: 20%;
-}
-
-.main textarea {
-    height: 100px;
-    text-align: left;
-    font-size: 18pt;
 }

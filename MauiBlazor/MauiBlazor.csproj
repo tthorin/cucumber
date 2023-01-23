@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
+        <!--<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>-->
 		<!--<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>-->
-		<!--<TargetFrameworks>net6.0-windows10.0.19041.0</TargetFrameworks>-->
+		<TargetFrameworks>net6.0-windows10.0.19041.0</TargetFrameworks>
 		<!--<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>-->
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
         <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
@@ -61,6 +61,7 @@
       <None Remove="Pages\General\Home.razor.css" />
       <None Remove="Pages\General\JoinRoom.razor.css" />
       <None Remove="Pages\General\Lobby.razor.css" />
+      <None Remove="Pages\PokerPlanning\ClientVoteView.razor.css" />
       <None Remove="Resources\Images\calendar_week.svg" />
       <None Remove="Resources\Images\infinity.svg" />
       <None Remove="Resources\Images\mug_hot.svg" />
@@ -78,6 +79,7 @@
       <Content Include="Pages\General\Home.razor.css" />
       <Content Include="Pages\General\JoinRoom.razor.css" />
       <Content Include="Pages\General\Lobby.razor.css" />
+      <Content Include="Pages\PokerPlanning\ClientVoteView.razor.css" />
     </ItemGroup>
 
     <ItemGroup>
