@@ -25,7 +25,8 @@ button {
 	height: max-content;
 }
 .selected {
-	border: 5px solid red;
+	border: 5px solid #199F63;
+	border-radius: 2%;
 }
 .leader-container {
 	height: 100%;
