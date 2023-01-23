@@ -7,12 +7,10 @@
 	<h3>Room: @signalR.Settings.Room</h3>
 	<div class="button-container">
 		<button @onclick="()=>HandleSelection(Pages.LeaderPokerSelectStyle)">
-			<img class="@(selected==Pages.LeaderPokerSelectStyle?"selected":"")" src="/Images/users.svg" />
-			Poker</button>
+			<img class="@(selected==Pages.LeaderPokerSelectStyle?"selected":"")" src="/Images/users.svg" /></button>
 		<button @onclick="()=>HandleSelection(Pages.LeaderAssessmentStart)"
 			>
-			<img class="@(selected==Pages.LeaderAssessmentStart?"selected":"")" src="/Images/magnifying-glass-chart.svg" />
-			Assessment</button>
+			<img class="@(selected==Pages.LeaderAssessmentStart?"selected":"")" src="/Images/magnifying-glass-chart.svg" /></button>
 	</div>
 	<button class="styled" @onclick="OnSelect">@buttonText</button>
 }
@@ -32,8 +30,8 @@ else if (nav == Pages.LeaderAssessmentStart)
 	public int clientsJoined { get; set; }
 
 	private Pages nav = Pages.LeaderSelectMode;
-	private Pages selected = Pages.LeaderSelectMode;
-	private string buttonText = "Nothing";
+	private Pages selected = Pages.LeaderPokerSelectStyle;
+	private string buttonText = "Poker";
 
 	private void HandleSelection(Pages page)
 	{
